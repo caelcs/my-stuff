@@ -69,8 +69,8 @@
         </dependency>
     </dependencies>
     <build>
-        <sourceDirectory>src/main</sourceDirectory>
-        <testSourceDirectory>src/test</testSourceDirectory>
+        <sourceDirectory>src/main/scala</sourceDirectory>
+        <testSourceDirectory>src/test/scala</testSourceDirectory>
 
         <directory>target</directory>
         <outputDirectory>target/classes</outputDirectory>
