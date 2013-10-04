@@ -8,6 +8,7 @@
     <name>MyStuff</name>
 
     <properties>
+        <junit.version>4.11</junit.version>
         <mockito.version>1.9.5</mockito.version>
         <spring.core.version>3.2.4.RELEASE</spring.core.version>
         <hibernate.version>4.2.5.Final</hibernate.version>
@@ -19,10 +20,13 @@
         <logback.version>1.0.13</logback.version>
         <scala.version>2.10.2</scala.version>
         <scala.test.version>1.9.2</scala.test.version>
+        <type.safe.config.version>1.0.2</type.safe.config.version>
     </properties>
 
     <modules>
+        <module>commons</module>
         <module>domain</module>
+        <module>persistence</module>
         <module>ingestion-core</module>
         <module>storage-core</module>
         <module>my-stuff-server</module>
@@ -30,6 +34,12 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
+                <scope>test</scope>
+            </dependency>
             <dependency>
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-all</artifactId>
@@ -42,6 +52,8 @@
                 <version>${scala.test.version}</version>
                 <scope>test</scope>
             </dependency>
+
+            <!-- Spring Dependencies -->
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-core</artifactId>
@@ -52,6 +64,8 @@
                 <artifactId>spring-data-jpa</artifactId>
                 <version>${spring-data-jpa.version}</version>
             </dependency>
+
+            <!-- Hibernate Dependencies -->
             <dependency>
                 <groupId>org.hibernate.javax.persistence</groupId>
                 <artifactId>hibernate-jpa-2.0-api</artifactId>
@@ -72,6 +86,8 @@
                 <artifactId>hibernate-ehcache</artifactId>
                 <version>${hibernate.version}</version>
             </dependency>
+
+            <!-- Database Dependencies -->
             <dependency>
                 <groupId>com.jolbox</groupId>
                 <artifactId>bonecp</artifactId>
@@ -82,6 +98,8 @@
                 <artifactId>mysql-connector-java</artifactId>
                 <version>${mysql.connector.java.version}</version>
             </dependency>
+
+            <!-- sl4j Dependencies -->
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
@@ -97,9 +115,19 @@
                 <artifactId>scala-library</artifactId>
                 <version>${scala.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.typesafe</groupId>
+                <artifactId>config</artifactId>
+                <version>${type.safe.config.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
-
+    <pluginRepositories>
+        <pluginRepository>
+            <id>oss sonatype</id>
+            <url>https://oss.sonatype.org/content/groups/public</url>
+        </pluginRepository>
+    </pluginRepositories>
     <build>
         <finalName>${project.artifactId}</finalName>
         <pluginManagement>
@@ -107,29 +135,65 @@
                 <plugin>
                     <groupId>net.alchim31.maven</groupId>
                     <artifactId>scala-maven-plugin</artifactId>
-                    <executions>
-                        <execution>
-                            <goals>
-                                <goal>compile</goal>
-                                <goal>testCompile</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                    <configuration>
-                        <scalaVersion>${scala.version}</scalaVersion>
-                    </configuration>
+                    <version>3.1.6</version>
                 </plugin>
-
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.1</version>
+                </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>2.16</version>
-                    <configuration>
-                        <useFile>false</useFile>
-                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>
-    </build>
+        <plugins>
+            <plugin>
+                <groupId>net.alchim31.maven</groupId>
+                <artifactId>scala-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>compile</id>
+                        <goals>
+                            <goal>compile</goal>
+                            <goal>testCompile</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>doc-jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <scalaVersion>${scala.version}</scalaVersion>
+                    <jvmArgs>
+                        <jvmArg>-Xms64m</jvmArg>
+                        <jvmArg>-Xmx1024m</jvmArg>
+                    </jvmArgs>
+                    <args>
+                        <arg>-unchecked</arg>
+                        <arg>-deprecation</arg>
+                        <!--<arg>-explaintypes</arg>-->
+                    </args>
+                </configuration>
+            </plugin>
 
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <includes>
+                        <include>**/*Suite.class</include>
+                        <include>**/*Test.class</include>
+                        <include>**/*Tests.class</include>
+                        <include>**/*Spec.class</include>
+                        <include>**/*Specs.class</include>
+                    </includes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
