@@ -26,23 +26,23 @@ import org.scalatest.junit.JUnitRunner
  *
  */
 @RunWith(classOf[JUnitRunner])
-class EnvironmentConfigSuite extends FunSpec with ShouldMatchers {
+class EnvironmentSuite extends FunSpec with ShouldMatchers {
 
   describe("An EnvironmentConfigurationContext") {
 
     it("Should get the config file for local environment.") {
-      val envConfigContext = EnvironmentConfig.test("local")
+      val envConfigContext = Environment.test("local")
       envConfigContext.get("db.server") should be equals  "localhost.test"
     }
 
     it("Should get the config file for local environment and a special ext.") {
-      val envConfigContext = EnvironmentConfig.test1("local")
+      val envConfigContext = Environment.test1("local")
       envConfigContext.get("db.server") should be equals  "localhost"
     }
 
     it("Should Fail trying to get the config file for a no existing environment.") {
       intercept[NotValidEnvironmentException] {
-        val envConfigContext = EnvironmentConfig.test("noexists")
+        val envConfigContext = Environment.test("noexists")
       }
     }
   }

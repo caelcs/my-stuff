@@ -24,7 +24,7 @@ import com.typesafe.scalalogging.slf4j.Logging
  * limitations under the License.
  *
  */
-object EnvironmentConfig extends Dynamic with Logging {
+object Environment extends Dynamic with Logging {
 
 
   def applyDynamic(name: String)(env:String): ConfigContext = {
@@ -34,7 +34,7 @@ object EnvironmentConfig extends Dynamic with Logging {
 
   private def configContext(name:String, env:String):ConfigContext = {
 
-    val environment = Try(Environment.withName(env).toString) match {
+    val environment = Try(EnvironmentConfig.withName(env).toString) match {
       case Success(v) ⇒ v
       case Failure(_) ⇒ throw NotValidEnvironmentException(s"Environment $env is not valid.")
     }
@@ -46,7 +46,7 @@ object EnvironmentConfig extends Dynamic with Logging {
   }
 }
 
-object Environment extends Enumeration {
+object EnvironmentConfig extends Enumeration {
   type EnvironmentType = Value
   val local, dev, int, qa, live  = Value
 }
