@@ -21,6 +21,7 @@
         <scala.version>2.10.2</scala.version>
         <scala.test.version>1.9.2</scala.test.version>
         <type.safe.config.version>1.0.2</type.safe.config.version>
+        <scalalogging-slf4j.version>1.0.1</scalalogging-slf4j.version>
     </properties>
 
     <modules>
@@ -110,6 +111,12 @@
                 <artifactId>logback-classic</artifactId>
                 <version>${logback.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.typesafe</groupId>
+                <artifactId>scalalogging-slf4j_2.10</artifactId>
+                <version>${scalalogging-slf4j.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>org.scala-lang</groupId>
                 <artifactId>scala-library</artifactId>
