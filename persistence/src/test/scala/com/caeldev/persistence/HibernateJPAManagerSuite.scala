@@ -4,7 +4,6 @@ import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import org.scalatest.FunSpec
 import org.scalatest.matchers.ShouldMatchers
-import com.caeldev.domain.Label
 import scala.collection.JavaConversions._
 
 /**
@@ -35,16 +34,16 @@ class HibernateJPAManagerSuite extends FunSpec with ShouldMatchers {
       val hibernateJPAEntityManager = TestingPersistenceRegistry.entityMgr
       val entityManager = hibernateJPAEntityManager.createManager
       entityManager.getTransaction.begin
-      val label1 = new Label
+      val label1 = new Test
       label1.name = "label test"
       entityManager.persist(label1)
       entityManager.getTransaction.commit
 
       entityManager.getTransaction.begin
-      val allLabels = entityManager.createQuery("From Label", classOf[Label]).getResultList.toList
+      val alltests = entityManager.createQuery("From Test", classOf[Test]).getResultList.toList
       entityManager.getTransaction.commit
 
-      allLabels should have length 1
+      alltests should have length 1
 
       entityManager.close
     }

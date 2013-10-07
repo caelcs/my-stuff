@@ -5,10 +5,6 @@
              version="2.0">
     <persistence-unit name="mystuff" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
-        <class>com.caeldev.domain.User</class>
-        <class>com.caeldev.domain.StorageAccount</class>
-        <class>com.caeldev.domain.Label</class>
-        <class>com.caeldev.domain.ContentType</class>
-        <class>com.caeldev.domain.StorageProvider</class>
+        <class>com.caeldev.persistence.Test</class>
     </persistence-unit>
 </persistence>

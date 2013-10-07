@@ -75,10 +75,6 @@
             <groupId>com.caeldev</groupId>
             <artifactId>commons</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.caeldev</groupId>
-            <artifactId>domain</artifactId>
-        </dependency>
     </dependencies>
     <build>
         <sourceDirectory>src/main/scala</sourceDirectory>
