@@ -23,12 +23,14 @@
         <type.safe.config.version>1.0.2</type.safe.config.version>
         <scalalogging-slf4j.version>1.0.1</scalalogging-slf4j.version>
         <hsqldb.version>2.3.0</hsqldb.version>
+        <genericdao.version>1.2.0</genericdao.version>
     </properties>
 
     <modules>
         <module>commons</module>
         <module>domain</module>
         <module>persistence</module>
+        <module>services</module>
         <module>ingestion-core</module>
         <module>storage-core</module>
         <module>my-stuff-server</module>
@@ -89,6 +91,19 @@
                 <version>${hibernate.version}</version>
             </dependency>
 
+            <!-- Generic Dao -->
+            <dependency>
+                <groupId>com.googlecode.genericdao</groupId>
+                <artifactId>dao</artifactId>
+                <version>${genericdao.version}</version> <!-- use current version -->
+            </dependency>
+            <!-- This second one includes the Hibernate Entity Manager plugin for the framework -->
+            <dependency>
+                <groupId>com.googlecode.genericdao</groupId>
+                <artifactId>search-jpa-hibernate</artifactId>
+                <version>${genericdao.version}</version> <!-- use current version -->
+            </dependency>
+
             <!-- Database Dependencies -->
             <dependency>
                 <groupId>com.jolbox</groupId>
@@ -142,6 +157,11 @@
             <dependency>
                 <groupId>com.caeldev</groupId>
                 <artifactId>domain</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.caeldev</groupId>
+                <artifactId>persistence</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>
