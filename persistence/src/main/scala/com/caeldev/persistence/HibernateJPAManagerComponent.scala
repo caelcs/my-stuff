@@ -1,5 +1,7 @@
 package com.caeldev.persistence
 
+import javax.persistence.EntityManager
+
 /**
  * Copyright (c) 2012 - 2013 Caeldev, Inc.
  *
@@ -20,8 +22,12 @@ package com.caeldev.persistence
  * limitations under the License.
  *
  */
-class PersistenceEntityManager {
+trait HibernateJPAManagerComponent {
+  this: DatabaseConfigurationComponent =>
 
+  val entityMgr: HibernateJPAManager
 
-
+  trait HibernateJPAManager {
+    def createManager():EntityManager
+  }
 }

@@ -10,13 +10,5 @@
         <class>com.caeldev.domain.Label</class>
         <class>com.caeldev.domain.ContentType</class>
         <class>com.caeldev.domain.StorageProvider</class>
-        <!--properties>
-            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect"/>
-            <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
-            <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
-            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost/test"/>
-            <property name="javax.persistence.jdbc.user" value="test"/>
-            <property name="javax.persistence.jdbc.password" value="1234"/>
-        </properties -->
     </persistence-unit>
 </persistence>

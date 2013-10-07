@@ -33,22 +33,25 @@ object Environment extends Dynamic with Logging {
   }
 
   private def configContext(name:String, env:String):ConfigContext = {
-
-    val environment = Try(EnvironmentConfig.withName(env).toString) match {
+    val environment = Try(EnvironmentConfig.withName(env)) match {
       case Success(v) ⇒ v
       case Failure(_) ⇒ throw NotValidEnvironmentException(s"Environment $env is not valid.")
     }
 
-    val fileName = s"$name.$environment"
-    logger.debug(s"Configuration File Name: $fileName")
-    val config:ConfigContext  = ConfigContext.load(fileName)
+    val fileNamePattern = environment match {
+      case EnvironmentConfig.none => s"$name"
+      case _ => s"$name.$environment"
+    }
+
+    logger.debug(s"Configuration File Name: $fileNamePattern")
+    val config:ConfigContext  = ConfigContext.load(fileNamePattern)
     config
   }
 }
 
 object EnvironmentConfig extends Enumeration {
   type EnvironmentType = Value
-  val local, dev, int, qa, live  = Value
+  val none, local, dev, int, qa, live  = Value
 }
 
 case class NotValidEnvironmentException(message:String) extends Exception(message)

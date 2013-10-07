@@ -45,5 +45,10 @@ class EnvironmentSuite extends FunSpec with ShouldMatchers {
         val envConfigContext = Environment.test("noexists")
       }
     }
+
+    it("Should get the config file with NONE environment.") {
+      val envConfigContext = Environment.test("none")
+      envConfigContext.get("db.server") should be equals  "localhost"
+    }
   }
 }
