@@ -28,9 +28,10 @@ trait HibernateJPAManagerComponentLive extends HibernateJPAManagerComponent {
 
   class HibernateJPAManagerLive extends HibernateJPAManager {
 
-    def createManager(): EntityManager = {
+    def createManager: EntityManager = {
       val configurations = databaseConfiguration.extractDatabaseConfiguration
-      val entityManagerFactory: EntityManagerFactory = Persistence.createEntityManagerFactory("mystuff", configurations)
+      val unitName = databaseConfiguration.getConfiguration().get("db.unit.name")
+      val entityManagerFactory: EntityManagerFactory = Persistence.createEntityManagerFactory(unitName, configurations)
       entityManagerFactory.createEntityManager()
     }
   }

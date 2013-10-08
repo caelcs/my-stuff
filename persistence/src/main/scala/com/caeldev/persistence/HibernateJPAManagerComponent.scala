@@ -28,6 +28,6 @@ trait HibernateJPAManagerComponent {
   val entityMgr: HibernateJPAManager
 
   trait HibernateJPAManager {
-    def createManager():EntityManager
+    def createManager:EntityManager
   }
 }

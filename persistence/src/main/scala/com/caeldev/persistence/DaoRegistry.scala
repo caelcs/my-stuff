@@ -23,7 +23,6 @@ import com.googlecode.genericdao.search.jpa.{JPASearchProcessor, JPAAnnotationMe
  *
  */
 object DaoRegistry {
-
   val entityManager = PersistenceRegistry.entityMgr.createManager
   val metaUtil = new JPAAnnotationMetadataUtil
   val searchProcessor = new JPASearchProcessor(metaUtil)
