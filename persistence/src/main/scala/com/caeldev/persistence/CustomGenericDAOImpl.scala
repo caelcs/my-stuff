@@ -23,7 +23,6 @@ import com.googlecode.genericdao.dao.jpa.GenericDAOImpl
  *
  */
 class CustomGenericDAOImpl[T, ID <: Serializable] extends GenericDAOImpl[T, ID] {
-
   val entityMgt = DaoRegistry.entityManager
 
   def beginTransaction {

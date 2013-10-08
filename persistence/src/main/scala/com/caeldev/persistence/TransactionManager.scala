@@ -1,17 +1,11 @@
 package com.caeldev.persistence
 
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
-import org.scalatest.FunSpec
-import org.scalatest.matchers.ShouldMatchers
-import com.caeldev.persistence.DatabaseTransactionManager._
-
 /**
  * Copyright (c) 2012 - 2013 Caeldev, Inc.
  *
  * User: cael
  * Date: 08/10/2013
- * Time: 14:45
+ * Time: 18:04
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,23 +20,28 @@ import com.caeldev.persistence.DatabaseTransactionManager._
  * limitations under the License.
  *
  */
-@RunWith(classOf[JUnitRunner])
-class CustomGenericDAOImplSuite extends FunSpec with ShouldMatchers {
 
-  describe("A CustomGenericDAOImpl") {
-    it("Should persist an entity and retrieve it back successfully.") {
-      val testDao = new TestDAOImpl
-      val test = new Test
-      test.name = "test name"
-      inTransaction(
-        testDao.save(test)
-      )
+trait TransactionManager {
+  def inTransaction[T](block: => T): T
+}
 
-      val allTests = inTransaction(
-        testDao.findAll()
-      )
+object DatabaseTransactionManager extends TransactionManager {
+  override def inTransaction[T](block: => T): T = {
+    val entityManager = DaoRegistry.entityManager
 
-      allTests should have size 1
+    try {
+      entityManager.getTransaction.begin
+      val result = block
+      entityManager.getTransaction.commit
+      result
+    }
+    catch {
+      case e: Throwable =>
+        entityManager.getTransaction.rollback
+        val msg = "Error, rolling back transaction: " + e.getMessage
+        throw DatabaseTransactionException(msg)
     }
   }
 }
+
+case class DatabaseTransactionException(msg:String) extends Exception(msg)
