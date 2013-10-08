@@ -35,10 +35,18 @@ class User extends Serializable {
 
   @Column(length = 12)
   @BeanProperty var password:String = _
+
+  @Embedded
   @BeanProperty var profile:Profile = _
+
+  @OneToMany(mappedBy="user", cascade=Array(CascadeType.ALL))
   @BeanProperty var storageAccounts: Array[StorageAccount] = _
 }
 
+@Embeddable
 class Profile extends Serializable {
-  var cellPhone:String = _
+
+  @Column(name = "CELL_PHONE", length=30)
+  @BeanProperty var cellPhone:String = _
+
 }

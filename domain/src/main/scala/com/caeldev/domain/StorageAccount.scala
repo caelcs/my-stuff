@@ -29,7 +29,13 @@ class StorageAccount extends Serializable {
 
   @Id @GeneratedValue
   @BeanProperty var id: Long = _
-  @BeanProperty var storage:StorageProvider = _
+
+  @ManyToOne
+  @JoinColumn(name = "storageAccounts", referencedColumnName = "storage_provider_id")
+  @BeanProperty var storageProvider:StorageProvider = _
+
+  @ManyToOne
+  @JoinColumn(name = "storageAccounts", referencedColumnName = "user_id")
   @BeanProperty var user:User = _
 
   @Column(length = 50)
