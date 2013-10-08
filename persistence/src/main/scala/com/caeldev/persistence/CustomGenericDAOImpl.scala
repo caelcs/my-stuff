@@ -23,21 +23,7 @@ import com.googlecode.genericdao.dao.jpa.GenericDAOImpl
  *
  */
 class CustomGenericDAOImpl[T, ID <: Serializable] extends GenericDAOImpl[T, ID] {
-  val entityMgt = DaoRegistry.entityManager
-
-  def beginTransaction {
-    entityMgt.getTransaction.begin
-  }
-
-  def commit {
-    entityMgt.getTransaction.commit
-  }
-
-  def rollback {
-    entityMgt.getTransaction.rollback
-  }
-
-  setEntityManager(DaoRegistry.entityManager)
-  setSearchProcessor(DaoRegistry.searchProcessor)
-
+  val entityMgt = PersistenceRegistry.entityManager
+  setEntityManager(PersistenceRegistry.entityManager)
+  setSearchProcessor(PersistenceRegistry.searchProcessor)
 }

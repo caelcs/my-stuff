@@ -1,13 +1,11 @@
 package com.caeldev.persistence
 
-import com.googlecode.genericdao.search.jpa.{JPASearchProcessor, JPAAnnotationMetadataUtil}
-
 /**
  * Copyright (c) 2012 - 2013 Caeldev, Inc.
  *
  * User: cael
- * Date: 08/10/2013
- * Time: 11:18
+ * Date: 07/10/2013
+ * Time: 12:48
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,9 +20,7 @@ import com.googlecode.genericdao.search.jpa.{JPASearchProcessor, JPAAnnotationMe
  * limitations under the License.
  *
  */
-object DaoRegistry {
-  val entityManager = PersistenceRegistry.entityMgr.createManager
-  val metaUtil = new JPAAnnotationMetadataUtil
-  val searchProcessor = new JPASearchProcessor(metaUtil)
-
+object JPAFactoryRegistry extends HibernateJPAManagerComponentLive with DatabaseConfigurationComponentLive {
+  val databaseConfiguration: JPAFactoryRegistry.DatabaseConfiguration = new DatabaseConfigurationLive
+  val entityMgr: JPAFactoryRegistry.HibernateJPAManager = new HibernateJPAManagerLive
 }

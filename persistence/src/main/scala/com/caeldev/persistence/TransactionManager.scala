@@ -27,7 +27,7 @@ trait TransactionManager {
 
 object DatabaseTransactionManager extends TransactionManager {
   override def inTransaction[T](block: => T): T = {
-    val entityManager = DaoRegistry.entityManager
+    val entityManager = PersistenceRegistry.entityManager
 
     try {
       entityManager.getTransaction.begin
