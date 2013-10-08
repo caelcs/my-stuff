@@ -31,7 +31,7 @@ class HibernateJPAManagerSuite extends FunSpec with ShouldMatchers {
 
   describe("An HibernateJPAManager") {
     it("Should load all the Entities annotated and create a DB.") {
-      val hibernateJPAEntityManager = TestingPersistenceRegistry.entityMgr
+      val hibernateJPAEntityManager = TestingJPAFactoryRegistry.entityMgr
       val entityManager = hibernateJPAEntityManager.createManager
       entityManager.getTransaction.begin
       val label1 = new Test

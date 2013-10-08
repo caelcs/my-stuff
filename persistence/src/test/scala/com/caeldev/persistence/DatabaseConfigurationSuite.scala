@@ -30,14 +30,14 @@ class DatabaseConfigurationSuite extends FunSpec with ShouldMatchers {
 
   describe("A DatabaseConfiguration") {
     it("Should get the database configuration from configuration file.") {
-      val databaseConf = TestingPersistenceRegistry.databaseConfiguration
+      val databaseConf = TestingJPAFactoryRegistry.databaseConfiguration
       val dbConfigContext = databaseConf.getConfiguration()
       val dbDialect = dbConfigContext.get("db.javax.persistence.jdbc.driver")
       dbDialect should be equals "org.hsqldb.jdbcDriver"
     }
 
     it("Should extract all the database information from the configuration file.") {
-      val databaseConf = TestingPersistenceRegistry.databaseConfiguration
+      val databaseConf = TestingJPAFactoryRegistry.databaseConfiguration
       val dbInformation = databaseConf.extractDatabaseConfiguration
 
       dbInformation should contain key ("hibernate.dialect")

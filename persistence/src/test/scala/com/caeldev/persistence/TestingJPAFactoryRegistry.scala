@@ -22,7 +22,7 @@ import org.scalatest.mock.MockitoSugar
  * limitations under the License.
  *
  */
-object TestingPersistenceRegistry extends HibernateJPAManagerComponentLive with DatabaseConfigurationComponentLive with MockitoSugar {
-  val databaseConfiguration: TestingPersistenceRegistry.DatabaseConfiguration = new DatabaseConfigurationLive
-  val entityMgr: TestingPersistenceRegistry.HibernateJPAManager = new HibernateJPAManagerLive
+object TestingJPAFactoryRegistry extends HibernateJPAManagerComponentLive with DatabaseConfigurationComponentLive with MockitoSugar {
+  val databaseConfiguration: TestingJPAFactoryRegistry.DatabaseConfiguration = new DatabaseConfigurationLive
+  val entityMgr: TestingJPAFactoryRegistry.HibernateJPAManager = new HibernateJPAManagerLive
 }
