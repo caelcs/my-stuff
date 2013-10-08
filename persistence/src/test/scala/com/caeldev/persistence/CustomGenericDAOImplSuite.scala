@@ -5,6 +5,7 @@ import org.scalatest.junit.JUnitRunner
 import org.scalatest.FunSpec
 import org.scalatest.matchers.ShouldMatchers
 import com.caeldev.persistence.DatabaseTransactionManager._
+import com.googlecode.genericdao.search.Search
 
 /**
  * Copyright (c) 2012 - 2013 Caeldev, Inc.
@@ -38,8 +39,12 @@ class CustomGenericDAOImplSuite extends FunSpec with ShouldMatchers {
         testDao.save(test)
       )
 
+      val s = new Search
+      s.addFilterEqual("name", "test name")
+      s.setMaxResults(10)
+
       val allTests = inTransaction(
-        testDao.findAll()
+        testDao.search(s)
       )
 
       allTests should have size 1
