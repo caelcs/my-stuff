@@ -28,10 +28,13 @@ import scala.beans.BeanProperty
 class StorageAccount extends Serializable {
 
   @Id @GeneratedValue
+  @Column(name = "id", updatable = false, nullable = false)
   @BeanProperty var id: Long = _
 
+  @ManyToOne
   @BeanProperty var storageProvider:StorageProvider = _
 
+  @ManyToOne
   @BeanProperty var user:User = _
 
   @Column(length = 50)

@@ -36,16 +36,18 @@ class User extends Serializable {
   @Column(length = 12)
   @BeanProperty var password:String = _
 
-
+  @Embedded
   @BeanProperty var profile:Profile = _
 
-
-  @BeanProperty var storageAccounts: Array[StorageAccount] = _
+  @OneToMany(mappedBy = "user", cascade = Array(CascadeType.ALL))
+  @BeanProperty var storageAccounts: java.util.List[StorageAccount] = _
 }
 
 
+@Embeddable
 class Profile extends Serializable {
 
+  @Column(length = 50)
   @BeanProperty var cellPhone:String = _
 
 }

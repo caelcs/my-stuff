@@ -28,6 +28,7 @@ import scala.beans.BeanProperty
 class StorageProvider extends Serializable {
 
   @Id @GeneratedValue
+  @Column(name = "id", updatable = false, nullable = false)
   @BeanProperty var id:Long = _
 
   @Column(length = 200)
@@ -36,7 +37,8 @@ class StorageProvider extends Serializable {
   @Column(length = 200)
   @BeanProperty var connectionDetails:String = _
 
-  @BeanProperty var storageAccounts:Array[StorageAccount] = _
+  @OneToMany(mappedBy = "storageProvider", cascade = Array(CascadeType.ALL))
+  @BeanProperty var storageAccounts : java.util.List[StorageAccount] = _
 
 }
 
