@@ -36,7 +36,6 @@ class StorageProvider extends Serializable {
   @Column(length = 200)
   @BeanProperty var connectionDetails:String = _
 
-  @OneToMany(cascade = Array(CascadeType.ALL), mappedBy = "storageProvider")
   @BeanProperty var storageAccounts:Array[StorageAccount] = _
 
 }
