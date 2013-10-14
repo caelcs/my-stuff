@@ -24,6 +24,7 @@
         <scalalogging-slf4j.version>1.0.1</scalalogging-slf4j.version>
         <hsqldb.version>2.3.0</hsqldb.version>
         <genericdao.version>1.2.0</genericdao.version>
+        <cas.version>3.5.2</cas.version>
     </properties>
 
     <modules>
@@ -34,6 +35,7 @@
         <module>ingestion-core</module>
         <module>storage-core</module>
         <module>my-stuff-server</module>
+        <module>cas-server</module>
     </modules>
 
     <dependencyManagement>
