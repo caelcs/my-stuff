@@ -164,7 +164,7 @@
 	would probably want to replace this with the JPA-backed ServiceRegistry DAO
 	The name of this bean should remain "serviceRegistryDao".
 	 -->
-	<bean
+    <!--<bean
 		id="serviceRegistryDao"
         class="org.jasig.cas.services.InMemoryServiceRegistryDaoImpl">
             <property name="registeredServices">
@@ -185,7 +185,7 @@
                     </bean>
                 </list>
             </property>
-        </bean>
+        </bean>-->
 
   <bean id="auditTrailManager" class="com.github.inspektr.audit.support.Slf4jLoggingAuditTrailManager" />
   
@@ -208,4 +208,43 @@
       </list>
     </property>
   </bean>
+
+    <bean id="serviceRegistryDao"
+          class="org.jasig.cas.services.JpaServiceRegistryDaoImpl"
+          p:entityManagerFactory-ref="entityManagerFactory" />
+
+    <bean id="entityManagerFactory"
+          class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+                <property name="generateDdl" value="true"/>
+                <property name="showSql" value="true" />
+            </bean>
+        </property>
+        <property name="jpaProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</prop>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="transactionManager"
+          class="org.springframework.orm.jpa.JpaTransactionManager">
+
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
+
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <bean id="dataSource"
+          class="org.apache.commons.dbcp.BasicDataSource"
+          p:driverClassName="com.mysql.jdbc.Driver"
+          p:url="jdbc:mysql://localhost:3306/cas_sso?autoReconnect=true"
+          p:password=""
+          p:username="mystuff" />
+
+    <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>
+
 </beans>
