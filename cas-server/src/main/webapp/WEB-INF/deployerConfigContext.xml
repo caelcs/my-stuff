@@ -224,7 +224,7 @@
         </property>
         <property name="jpaProperties">
             <props>
-                <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</prop>
+                <prop key="hibernate.dialect">${database.hibernate.dialect}</prop>
                 <prop key="hibernate.hbm2ddl.auto">update</prop>
             </props>
         </property>
@@ -240,10 +240,10 @@
 
     <bean id="dataSource"
           class="org.apache.commons.dbcp.BasicDataSource"
-          p:driverClassName="com.mysql.jdbc.Driver"
-          p:url="jdbc:mysql://localhost:3306/cas_sso?autoReconnect=true"
-          p:password=""
-          p:username="mystuff" />
+          p:driverClassName="${database.jdbc.driverClassName}"
+          p:url="${database.jdbc.url}"
+          p:password="${database.jdbc.password}"
+          p:username="${database.jdbc.user}" />
 
     <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>
 
