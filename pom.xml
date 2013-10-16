@@ -34,8 +34,6 @@
         <module>domain</module>
         <module>persistence</module>
         <module>services</module>
-        <module>ingestion-core</module>
-        <module>storage-core</module>
         <module>my-stuff-server</module>
         <module>cas-server</module>
     </modules>
