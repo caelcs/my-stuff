@@ -6,7 +6,6 @@ import org.scalatest.FunSpec
 import org.scalatest.matchers.ShouldMatchers
 import com.caeldev.persistence.DatabaseTransactionManager._
 import com.googlecode.genericdao.search.Search
-import com.caeldev.dao.LabelDAOImpl
 import com.caeldev.domain.Label
 
 /**
@@ -34,7 +33,7 @@ class JPAHibernateMyStuffSuite extends FunSpec with ShouldMatchers {
 
   describe("A CustomGenericDAOImpl") {
     it("Should persist an entity and retrieve it back successfully.") {
-      val labelDao = new LabelDAOImpl
+      val labelDao = TestDaoComponentRegistry.labelDao
       val label = new Label
       label.name = "label test name"
       inTransaction(

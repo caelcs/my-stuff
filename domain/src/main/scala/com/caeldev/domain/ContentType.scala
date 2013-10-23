@@ -33,5 +33,15 @@ class ContentType extends Serializable {
   @Column(length = 200)
   @BeanProperty var name:String = _
 
+  def this(id: Long, name:String) = {
+    this()
+    this.name = name
+    this.id = id
+  }
+
+  def this(name:String) = {
+    this()
+    this.name = name
+  }
 }
 

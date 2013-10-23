@@ -25,6 +25,12 @@ import com.caeldev.persistence.CustomGenericDAOImpl
  *
  */
 
-trait LabelDAO extends GenericDAO[Label, Long with Serializable]
+trait LabelDAOComponent {
+  val labelDao: LabelDAO
 
-class LabelDAOImpl extends CustomGenericDAOImpl[Label, Long with Serializable] with LabelDAO
+  trait LabelDAO extends GenericDAO[Label, java.lang.Long]
+}
+
+trait LabelDAOComponentLive extends LabelDAOComponent {
+  class LabelDAOImpl extends CustomGenericDAOImpl[Label, java.lang.Long] with LabelDAO
+}

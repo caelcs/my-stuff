@@ -1,15 +1,14 @@
-package com.caeldev.dao
+package com.caeldev.actors
 
-import com.googlecode.genericdao.dao.jpa.GenericDAO
-import com.caeldev.domain.User
-import com.caeldev.persistence.CustomGenericDAOImpl
+import com.caeldev.commons.config.Environment
+import akka.actor.ActorSystem
 
 /**
  * Copyright (c) 2012 - 2013 Caeldev, Inc.
  *
  * User: cael
- * Date: 07/10/2013
- * Time: 17:07
+ * Date: 16/10/2013
+ * Time: 19:40
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,12 +23,9 @@ import com.caeldev.persistence.CustomGenericDAOImpl
  * limitations under the License.
  *
  */
-trait UserDAOComponent {
-  val userDao:UserDAO
+trait ActorSystemComponent {
 
-  trait UserDAO extends GenericDAO[User, java.lang.Long]
-}
+  val system = ActorSystem(Environment.application("none").get("application.name"))
+  system.registerOnTermination(system.shutdown())
 
-trait UserDAOComponentLive extends UserDAOComponent {
-  class UserDAOImpl extends CustomGenericDAOImpl[User, java.lang.Long] with UserDAO
 }

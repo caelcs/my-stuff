@@ -24,6 +24,13 @@ import com.caeldev.persistence.CustomGenericDAOImpl
  * limitations under the License.
  *
  */
-trait ContentTypeDAO extends GenericDAO[ContentType, Long with Serializable]
 
-class ContentTypeDAOImpl extends CustomGenericDAOImpl[ContentType, Long with Serializable] with ContentTypeDAO
+trait ContentTypeDAOComponent {
+  val contentTypeDao:ContentTypeDAO
+
+  trait ContentTypeDAO extends GenericDAO[ContentType, java.lang.Long]
+}
+
+trait ContentTypeDAOComponentLive extends ContentTypeDAOComponent {
+  class ContentTypeDAOImpl extends CustomGenericDAOImpl[ContentType, java.lang.Long] with ContentTypeDAO
+}

@@ -22,7 +22,7 @@ import com.googlecode.genericdao.dao.jpa.GenericDAOImpl
  * limitations under the License.
  *
  */
-class CustomGenericDAOImpl[T, ID <: Serializable] extends GenericDAOImpl[T, ID] {
+class CustomGenericDAOImpl[T, ID <: java.io.Serializable] extends GenericDAOImpl[T, ID] {
   val entityMgt = PersistenceRegistry.entityManager
   setEntityManager(PersistenceRegistry.entityManager)
   setSearchProcessor(PersistenceRegistry.searchProcessor)

@@ -1,15 +1,13 @@
-package com.caeldev.dao
+package com.caeldev.services
 
-import com.googlecode.genericdao.dao.jpa.GenericDAO
-import com.caeldev.domain.User
-import com.caeldev.persistence.CustomGenericDAOImpl
+import com.caeldev.dao.ContentTypeDAOComponentLive
 
 /**
  * Copyright (c) 2012 - 2013 Caeldev, Inc.
  *
  * User: cael
- * Date: 07/10/2013
- * Time: 17:07
+ * Date: 22/10/2013
+ * Time: 17:57
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,12 +22,6 @@ import com.caeldev.persistence.CustomGenericDAOImpl
  * limitations under the License.
  *
  */
-trait UserDAOComponent {
-  val userDao:UserDAO
-
-  trait UserDAO extends GenericDAO[User, java.lang.Long]
-}
-
-trait UserDAOComponentLive extends UserDAOComponent {
-  class UserDAOImpl extends CustomGenericDAOImpl[User, java.lang.Long] with UserDAO
+object TestServiceRegistry {
+  val contentTypeService = ContentTypeServiceRegistry.contentTypeService
 }

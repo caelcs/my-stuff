@@ -24,6 +24,13 @@ import com.caeldev.persistence.CustomGenericDAOImpl
  * limitations under the License.
  *
  */
-trait StorageProviderDAO extends GenericDAO[StorageProvider, Long with Serializable]
 
-class StorageProviderDAOImpl extends CustomGenericDAOImpl[StorageProvider, Long with Serializable] with StorageProviderDAO
+trait StorageProviderDAOComponent {
+  val storageProviderDao:StorageProviderDAO
+
+  trait StorageProviderDAO extends GenericDAO[StorageProvider, java.lang.Long]
+}
+
+trait StorageProviderDAOComponentLive extends StorageProviderDAOComponent {
+  class StorageProviderDAOImpl extends CustomGenericDAOImpl[StorageProvider, java.lang.Long] with StorageProviderDAO
+}
