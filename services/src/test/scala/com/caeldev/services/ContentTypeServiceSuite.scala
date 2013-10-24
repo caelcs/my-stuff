@@ -36,7 +36,7 @@ class ContentTypeServiceSuite extends FunSpec with ShouldMatchers {
       val contentType = new ContentType("This is a Content Type for Test")
       val result = contentTypeService.add(contentType)
       //result.id should not be (null)
-      result.name should be equals ("This is a Content Type for Test")
+      result.name should be equals "This is a Content Type for Test"
       contentTypeService.delete(result.id)
     }
 
@@ -44,7 +44,7 @@ class ContentTypeServiceSuite extends FunSpec with ShouldMatchers {
       val contentTypeAdd = new ContentType("This is a Content Type for Test")
       val resultAdding = contentTypeService.add(contentTypeAdd)
       //resultAdding.id should not be (null)
-      resultAdding.name should be equals ("This is a Content Type for Test")
+      resultAdding.name should be equals "This is a Content Type for Test"
       contentTypeService.delete(resultAdding.id)
 
       val result = contentTypeService.getContents(1, 1)
@@ -55,14 +55,12 @@ class ContentTypeServiceSuite extends FunSpec with ShouldMatchers {
       val contentTypeAdd = new ContentType("This is a Content Type for Test")
       val resultAdding = contentTypeService.add(contentTypeAdd)
       //resultAdding.id should not be (null)
-      resultAdding.name should be equals ("This is a Content Type for Test")
+      resultAdding.name should be equals "This is a Content Type for Test"
 
       resultAdding.name = "This content type has been updated."
       val contentUpdated = contentTypeService.update(resultAdding)
-      //resultAdding.id should not be (null)
-      resultAdding.name should be equals ("This content type has been updated.")
-
-      contentTypeService.delete(resultAdding.id)
+      contentUpdated.name should be equals "This content type has been updated."
+      contentTypeService.delete(contentUpdated.id)
     }
 
   }

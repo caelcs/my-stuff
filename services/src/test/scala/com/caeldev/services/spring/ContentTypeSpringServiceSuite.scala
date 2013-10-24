@@ -1,7 +1,6 @@
 package com.caeldev.services.spring
 
 import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
 import org.scalatest.FunSpec
 import org.scalatest.matchers.ShouldMatchers
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
@@ -42,7 +41,46 @@ class ContentTypeSpringServiceSuite extends FunSpec with ShouldMatchers {
   def shouldAddNewContentTypeSupportedByActor() {
     val contentType = new ContentType("This is a Content Type for Test")
     val result = contentTypeService.add(contentType)
-    result should not be (null)
-    result.name should equal ("This is a Content Type for Test")
+    result should not be null
+    result.name should be equals "This is a Content Type for Test"
+    contentTypeService.delete(result.id)
+  }
+
+  @Test
+  def shouldDeleteContentTypeByIdSupportedByActor() {
+    val contentType = new ContentType("This is a Content Type for Test")
+    val resultAdd = contentTypeService.add(contentType)
+    resultAdd should not be null
+    resultAdd.name should be equals "This is a Content Type for Test"
+    val result = contentTypeService.delete(resultAdd.id)
+    result should be (true)
+    val resultAll = contentTypeService.getContents(10, 1)
+    resultAll should be ('empty)
+  }
+
+  @Test
+  def shouldUpdateContentTypeSupportedByActor() {
+    val contentType = new ContentType("This is a Content Type for Test")
+    val resultAdd = contentTypeService.add(contentType)
+    resultAdd should not be null
+    resultAdd.name should be equals "This is a Content Type for Test"
+
+    resultAdd.name = "This content type has been updated."
+    val result = contentTypeService.update(resultAdd)
+
+    result.name should be equals "This content type has been updated."
+    contentTypeService.delete(result.id)
+  }
+
+  @Test
+  def shouldGetContentTypesSupportedByActor() {
+    val contentType = new ContentType("This is a Content Type for Test")
+    val resultAdd = contentTypeService.add(contentType)
+    resultAdd should not be null
+    resultAdd.name should be equals "This is a Content Type for Test"
+
+    val result = contentTypeService.getContents(10, 1)
+    result should not be 'empty
+    contentTypeService.delete(resultAdd.id)
   }
 }
