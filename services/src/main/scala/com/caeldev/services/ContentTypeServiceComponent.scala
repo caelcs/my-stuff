@@ -26,18 +26,18 @@ import com.caeldev.persistence.DatabaseTransactionManager._
  * limitations under the License.
  *
  */
+
+trait ContentTypeService {
+  def getContents(pageSize:Int, pageNumber:Int):java.util.List[ContentType]
+  def delete(id:Long):Boolean
+  def update(contentType:ContentType):ContentType
+  def add(contentType:ContentType):ContentType
+}
+
 trait ContentTypeServiceComponent {
   this: ContentTypeDAOComponent =>
 
   val contentTypeService: ContentTypeService
-
-  trait ContentTypeService {
-    def getContents(pageSize:Int, pageNumber:Int):java.util.List[ContentType]
-    def delete(id:Long):Boolean
-    def update(contentType:ContentType):ContentType
-    def add(contentType:ContentType):ContentType
-  }
-
 }
 
 trait ContentTypeServiceComponentLive extends ContentTypeServiceComponent {
@@ -49,7 +49,7 @@ trait ContentTypeServiceComponentLive extends ContentTypeServiceComponent {
       inTransaction{
         val searchCriteria = new Search()
         val result:SearchResult[ContentType] = contentTypeDao.searchAndCount(searchCriteria)
-        result.getResult()
+        result.getResult
       }
     }
 

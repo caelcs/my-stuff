@@ -1,7 +1,7 @@
 package com.caeldev.actors
 
 import akka.actor.{ActorLogging, Actor}
-import com.caeldev.services.{ContentTypeServiceRegistry, ContentTypeServiceComponent}
+import com.caeldev.services.ContentTypeServiceRegistry
 import com.caeldev.actors.Operation.{Update, Delete, Add, GetContents}
 import com.caeldev.domain.ContentType
 
@@ -38,7 +38,7 @@ class ContentTypeActor extends Actor with ActorLogging {
       log.debug("Entering Add Method Actor")
       sender ! contentTypeService.add(contentType)
     }
-    case Delete(id:Int) => {
+    case Delete(id:Long) => {
       log.debug("Entering Delete Method Actor")
       sender ! contentTypeService.delete(id)
     }
@@ -52,6 +52,6 @@ class ContentTypeActor extends Actor with ActorLogging {
 object Operation {
   case class GetContents(pageSize:Int, pageNumber:Int)
   case class Add(contentType:ContentType)
-  case class Delete(id:Int)
+  case class Delete(id:Long)
   case class Update(contentType:ContentType)
 }

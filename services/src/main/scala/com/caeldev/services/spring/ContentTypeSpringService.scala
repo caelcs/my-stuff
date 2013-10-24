@@ -3,13 +3,13 @@ package com.caeldev.services.spring
 import org.springframework.stereotype.Service
 import com.caeldev.actors.{ContentTypeActor, ActorSystemComponent}
 import com.caeldev.domain.ContentType
-import com.googlecode.genericdao.search.SearchResult
 import akka.actor.Props
 import akka.pattern.ask
-import com.caeldev.actors.Operation.GetContents
+import com.caeldev.actors.Operation.{Add, Update, Delete, GetContents}
 import scala.concurrent.Await
 import akka.util.Timeout
 import scala.concurrent.duration._
+import com.caeldev.services.ContentTypeService
 
 
 /**
@@ -33,15 +33,35 @@ import scala.concurrent.duration._
  *
  */
 @Service
-class ContentTypeSpringService extends ActorSystemComponent {
+class ContentTypeSpringService extends ContentTypeService with ActorSystemComponent {
 
   implicit val timeout = Timeout(5 seconds)
 
-  def getContents(pageSize:Int, pageNumber:Int):SearchResult[ContentType] = {
+  def getContents(pageSize:Int, pageNumber:Int):java.util.List[ContentType] = {
     val contentTypeActor = system.actorOf(Props[ContentTypeActor], "contentTypeActor")
-    val resultFuture = ask(contentTypeActor, GetContents(pageSize, pageNumber)).mapTo[SearchResult[ContentType]]
+    val resultFuture = ask(contentTypeActor, GetContents(pageSize, pageNumber)).mapTo[java.util.List[ContentType]]
     val result = Await.result(resultFuture, timeout.duration)
     result
   }
 
+  def delete(id: Long): Boolean = {
+    val contentTypeActor = system.actorOf(Props[ContentTypeActor], "contentTypeActor")
+    val resultFuture = ask(contentTypeActor, Delete(id)).mapTo[Boolean]
+    val result = Await.result(resultFuture, timeout.duration)
+    result
+  }
+
+  def update(contentType: ContentType): ContentType = {
+    val contentTypeActor = system.actorOf(Props[ContentTypeActor], "contentTypeActor")
+    val resultFuture = ask(contentTypeActor, Update(contentType)).mapTo[ContentType]
+    val result = Await.result(resultFuture, timeout.duration)
+    result
+  }
+
+  def add(contentType: ContentType): ContentType = {
+    val contentTypeActor = system.actorOf(Props[ContentTypeActor], "contentTypeActor")
+    val resultFuture = ask(contentTypeActor, Add(contentType)).mapTo[ContentType]
+    val result = Await.result(resultFuture, timeout.duration)
+    result
+  }
 }

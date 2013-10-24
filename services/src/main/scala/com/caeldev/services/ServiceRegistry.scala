@@ -24,5 +24,5 @@ import com.caeldev.dao.ContentTypeDAOComponentLive
  */
 object ContentTypeServiceRegistry extends ContentTypeServiceComponentLive with ContentTypeDAOComponentLive {
   val contentTypeDao: ContentTypeServiceRegistry.ContentTypeDAO = new ContentTypeDAOImpl
-  val contentTypeService: ContentTypeServiceRegistry.ContentTypeService = new ContentTypeServiceImpl
+  val contentTypeService: ContentTypeService = new ContentTypeServiceImpl
 }

@@ -1,7 +1,5 @@
 package com.caeldev.services
 
-import com.caeldev.dao.ContentTypeDAOComponentLive
-
 /**
  * Copyright (c) 2012 - 2013 Caeldev, Inc.
  *
