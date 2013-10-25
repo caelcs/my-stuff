@@ -11,6 +11,7 @@
         <junit.version>4.11</junit.version>
         <mockito.version>1.9.5</mockito.version>
         <spring.core.version>3.2.4.RELEASE</spring.core.version>
+        <spring.security.version>3.1.4.RELEASE</spring.security.version>
         <hibernate.version>4.2.5.Final</hibernate.version>
         <bonecp.version>0.7.1.RELEASE</bonecp.version>
         <mysql.connector.java.version>5.1.26</mysql.connector.java.version>
@@ -30,6 +31,7 @@
         <akka.version>2.2.1</akka.version>
         <akka.logging.version>2.2.1</akka.logging.version>
         <jersey.server.version>1.17.1</jersey.server.version>
+        <servlet.version>2.4</servlet.version>
     </properties>
 
     <modules>
@@ -83,6 +85,34 @@
                 <artifactId>spring-test</artifactId>
                 <version>${spring.core.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-cas</artifactId>
+                <version>${spring.security.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-core</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-web</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-beans</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-context</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
 
             <!-- Hibernate Dependencies -->
             <dependency>
@@ -253,6 +283,12 @@
                         <artifactId>spring-context</artifactId>
                     </exclusion>
                 </exclusions>
+            </dependency>
+            <!-- Web App libs -->
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>servlet-api</artifactId>
+                <version>${servlet.version}</version>
             </dependency>
 
         </dependencies>
