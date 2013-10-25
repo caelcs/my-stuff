@@ -2,8 +2,12 @@ package com.caeldev.actors
 
 import akka.actor.{ActorLogging, Actor}
 import com.caeldev.services.ContentTypeServiceRegistry
-import com.caeldev.actors.Operation.{Update, Delete, Add, GetContents}
+import com.caeldev.actors.Operation._
 import com.caeldev.domain.ContentType
+import com.caeldev.actors.Operation.GetContents
+import com.caeldev.actors.Operation.Add
+import com.caeldev.actors.Operation.Delete
+import com.caeldev.actors.Operation.Update
 
 /**
  * Copyright (c) 2012 - 2013 Caeldev, Inc.
@@ -46,6 +50,10 @@ class ContentTypeActor extends Actor with ActorLogging {
       log.debug("Entering Update Method Actor")
       sender ! contentTypeService.update(contentType)
     }
+    case Get(id:Long) => {
+      log.debug("Entering Get Method Actor")
+      sender ! contentTypeService.get(id)
+    }
   }
 }
 
@@ -54,4 +62,5 @@ object Operation {
   case class Add(contentType:ContentType)
   case class Delete(id:Long)
   case class Update(contentType:ContentType)
+  case class Get(id:Long)
 }

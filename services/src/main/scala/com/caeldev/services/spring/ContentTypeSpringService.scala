@@ -5,11 +5,15 @@ import com.caeldev.actors.{ContentTypeActor, ActorSystemComponent}
 import com.caeldev.domain.ContentType
 import akka.actor.Props
 import akka.pattern.ask
-import com.caeldev.actors.Operation.{Add, Update, Delete, GetContents}
+import com.caeldev.actors.Operation._
 import scala.concurrent.Await
 import akka.util.Timeout
 import scala.concurrent.duration._
 import com.caeldev.services.ContentTypeService
+import com.caeldev.actors.Operation.Add
+import com.caeldev.actors.Operation.Update
+import com.caeldev.actors.Operation.GetContents
+import com.caeldev.actors.Operation.Delete
 
 
 /**
@@ -61,6 +65,13 @@ class ContentTypeSpringService extends ContentTypeService with ActorSystemCompon
   def add(contentType: ContentType): ContentType = {
     val contentTypeActor = system.actorOf(Props[ContentTypeActor])
     val resultFuture = ask(contentTypeActor, Add(contentType)).mapTo[ContentType]
+    val result = Await.result(resultFuture, timeout.duration)
+    result
+  }
+
+  def get(id:Long): ContentType = {
+    val contentTypeActor = system.actorOf(Props[ContentTypeActor])
+    val resultFuture = ask(contentTypeActor, Get(id)).mapTo[ContentType]
     val result = Await.result(resultFuture, timeout.duration)
     result
   }

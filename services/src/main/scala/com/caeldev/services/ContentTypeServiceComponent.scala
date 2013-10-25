@@ -32,6 +32,7 @@ trait ContentTypeService {
   def delete(id:Long):Boolean
   def update(contentType:ContentType):ContentType
   def add(contentType:ContentType):ContentType
+  def get(id:Long):ContentType
 }
 
 trait ContentTypeServiceComponent {
@@ -70,6 +71,12 @@ trait ContentTypeServiceComponentLive extends ContentTypeServiceComponent {
         contentTypeDao.save(contentType)
       }
 
+    }
+
+    def get(id: Long): ContentType = {
+      inTransaction{
+        contentTypeDao.find(id)
+      }
     }
   }
 }
