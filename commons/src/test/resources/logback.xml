@@ -6,11 +6,6 @@
         </encoder>
     </appender>
 
-    <logger name="org.json4s" level="info"/>
-    <logger name="com.mongodb" level="info"/>
-    <logger name="com.novus" level="info"/>
-
-
     <root level="debug">
         <appender-ref ref="STDOUT" />
     </root>
