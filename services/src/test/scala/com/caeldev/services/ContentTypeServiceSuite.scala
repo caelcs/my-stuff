@@ -47,7 +47,7 @@ class ContentTypeServiceSuite extends FunSpec with ShouldMatchers {
       resultAdding.name should be equals "This is a Content Type for Test"
       contentTypeService.delete(resultAdding.id)
 
-      val result = contentTypeService.getContents(1, 1)
+      val result = contentTypeService.list(1, 1)
       result should be ('empty)
     }
 

@@ -18,8 +18,6 @@
 
     <security:http entry-point-ref="casEntryPoint" use-expressions="true">
         <security:intercept-url pattern="/" access="permitAll"/>
-        <security:intercept-url pattern="/rest/extreme/**"
-                       access="hasRole('ROLE_SUPERVISOR')" />
         <security:intercept-url pattern="/rest/**" access="hasRole('ROLE_USER')" />
         <security:intercept-url pattern="/**" access="hasRole('ROLE_USER')" />
         <security:custom-filter ref="requestSingleLogoutFilter" before="LOGOUT_FILTER"/>
@@ -27,12 +25,6 @@
         <security:custom-filter ref="casFilter" position="CAS_FILTER" />
         <security:logout logout-success-url="/cas-logout.jsp"/>
     </security:http>
-    <!--<security:http entry-point-ref="casEntryPoint">
-        <security:custom-filter position="CAS_FILTER" ref="casFilter" />
-        <security:logout logout-success-url="/logout"/>
-        <security:custom-filter ref="requestSingleLogoutFilter" before="LOGOUT_FILTER"/>
-        <security:custom-filter ref="singleLogoutFilter" before="CAS_FILTER"/>
-    </security:http>-->
 
     <bean id="pgtStorage" class="org.jasig.cas.client.proxy.ProxyGrantingTicketStorageImpl"/>
 
@@ -83,15 +75,12 @@
         <property name="key" value="casAuthProviderKey"/>
     </bean>
 
-    <security:user-service id="userService">
-        <security:user name="admin" password="admin" authorities="ROLE_SUPERVISOR,ROLE_USER" />
-        <security:user name="dianne" password="dianne" authorities="ROLE_USER" />
-        <security:user name="scott" password="scott" authorities="ROLE_USER" />
-    </security:user-service>
+    <security:jdbc-user-service
+        data-source-ref="dataSource"
+        users-by-username-query="select username, password from users where username=?"
+        authorities-by-username-query="select username, roleName from role..."
+        role-prefix="ROLE_"/>
 
-    <!--<security:user-service id="userService">
-        <security:user name="joe" password="joe" authorities="ROLE_USER" />
-    </security:user-service>-->
 
     <!-- This filter handles a Single Logout Request from the CAS Server -->
     <bean id="singleLogoutFilter" class="org.jasig.cas.client.session.SingleSignOutFilter"/>

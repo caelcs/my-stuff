@@ -1,13 +1,11 @@
 package com.caeldev.services
 
-import com.caeldev.dao.{UserDAOComponentLive, ContentTypeDAOComponentLive}
-
 /**
  * Copyright (c) 2012 - 2013 Caeldev, Inc.
  *
  * User: cael
- * Date: 18/10/2013
- * Time: 15:09
+ * Date: 26/10/2013
+ * Time: 17:27
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,12 +20,11 @@ import com.caeldev.dao.{UserDAOComponentLive, ContentTypeDAOComponentLive}
  * limitations under the License.
  *
  */
-object ContentTypeServiceRegistry extends ContentTypeServiceComponentLive with ContentTypeDAOComponentLive {
-  val contentTypeDao: ContentTypeServiceRegistry.ContentTypeDAO = new ContentTypeDAOImpl
-  val contentTypeService: ContentTypeService = new ContentTypeServiceImpl
-}
+trait GenericService[T] {
+  def list(pageSize:Int, pageNumber:Int):java.util.List[T]
+  def delete(id:Long):Boolean
+  def update(entity:T):T
+  def add(entity:T):T
+  def get(id:Long):T
 
-object UserServiceRegistry extends UserServiceComponentLive with UserDAOComponentLive {
-  val userDao: UserServiceRegistry.UserDAO = new UserDAOImpl
-  val userService: UserService = new UserServiceImpl
 }

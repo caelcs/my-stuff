@@ -1,17 +1,17 @@
 package com.caeldev.services
 
-import com.googlecode.genericdao.search.{Search, SearchResult}
-import com.caeldev.domain.ContentType
-import com.caeldev.dao.ContentTypeDAOComponent
+import com.caeldev.dao.UserDAOComponent
+import com.caeldev.domain.User
+import java.util
 import com.caeldev.persistence.DatabaseTransactionManager._
-
+import com.googlecode.genericdao.search.{SearchResult, Search}
 
 /**
  * Copyright (c) 2012 - 2013 Caeldev, Inc.
  *
  * User: cael
- * Date: 17/10/2013
- * Time: 16:23
+ * Date: 26/10/2013
+ * Time: 17:23
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,53 +27,50 @@ import com.caeldev.persistence.DatabaseTransactionManager._
  *
  */
 
-trait ContentTypeService extends GenericService[ContentType]
+trait UserService extends GenericService[User]
 
-trait ContentTypeServiceComponent {
-  this: ContentTypeDAOComponent =>
+trait UserServiceComponent {
+  this: UserDAOComponent =>
 
-  val contentTypeService: ContentTypeService
+  val userService:UserService
+
 }
 
-trait ContentTypeServiceComponentLive extends ContentTypeServiceComponent {
-  this: ContentTypeDAOComponent =>
+trait UserServiceComponentLive extends UserServiceComponent {
+  this: UserDAOComponent =>
 
-  class ContentTypeServiceImpl extends ContentTypeService {
-
-    def list(pageSize:Int, pageNumber:Int):java.util.List[ContentType] = {
+  class UserServiceImpl extends UserService {
+    def list(pageSize: Int, pageNumber: Int): util.List[User] = {
       inTransaction{
         val searchCriteria = new Search()
-        val result:SearchResult[ContentType] = contentTypeDao.searchAndCount(searchCriteria)
+        val result:SearchResult[User] = userDao.searchAndCount(searchCriteria)
         result.getResult
       }
     }
 
     def delete(id: Long): Boolean = {
       inTransaction{
-        contentTypeDao.removeById(id)
+        userDao.removeById(id)
       }
     }
 
-    def update(contentType: ContentType): ContentType = {
+    def update(entity: User): User = {
       inTransaction{
-        contentTypeDao.save(contentType)
+        userDao.save(entity)
       }
     }
 
-    def add(contentType: ContentType): ContentType = {
+    def add(entity: User): User = {
       inTransaction{
-        contentTypeDao.save(contentType)
+        userDao.save(entity)
       }
-
     }
 
-    def get(id: Long): ContentType = {
+    def get(id: Long): User = {
       inTransaction{
-        contentTypeDao.find(id)
+        userDao.find(id)
       }
     }
   }
+
 }
-
-
-

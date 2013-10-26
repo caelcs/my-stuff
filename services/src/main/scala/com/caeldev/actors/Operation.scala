@@ -1,13 +1,11 @@
-package com.caeldev.services
-
-import com.caeldev.dao.{UserDAOComponentLive, ContentTypeDAOComponentLive}
+package com.caeldev.actors
 
 /**
  * Copyright (c) 2012 - 2013 Caeldev, Inc.
  *
  * User: cael
- * Date: 18/10/2013
- * Time: 15:09
+ * Date: 26/10/2013
+ * Time: 18:12
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,12 +20,10 @@ import com.caeldev.dao.{UserDAOComponentLive, ContentTypeDAOComponentLive}
  * limitations under the License.
  *
  */
-object ContentTypeServiceRegistry extends ContentTypeServiceComponentLive with ContentTypeDAOComponentLive {
-  val contentTypeDao: ContentTypeServiceRegistry.ContentTypeDAO = new ContentTypeDAOImpl
-  val contentTypeService: ContentTypeService = new ContentTypeServiceImpl
-}
-
-object UserServiceRegistry extends UserServiceComponentLive with UserDAOComponentLive {
-  val userDao: UserServiceRegistry.UserDAO = new UserDAOImpl
-  val userService: UserService = new UserServiceImpl
+object Operation {
+  case class List(pageSize:Int, pageNumber:Int)
+  case class Add(entity:Any)
+  case class Delete(id:Long)
+  case class Update(entity:Any)
+  case class Get(id:Long)
 }

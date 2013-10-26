@@ -1,14 +1,15 @@
 package com.caeldev.services.spring
 
 import org.springframework.stereotype.Service
-import com.caeldev.actors.{ContentTypeActor, ActorSystemComponent}
-import com.caeldev.domain.ContentType
+import com.caeldev.services.UserService
+import com.caeldev.actors.{UserActor, ActorSystemComponent}
+import akka.util.Timeout
+import scala.concurrent.duration._
+import com.caeldev.domain.User
+import java.util
 import akka.actor.Props
 import akka.pattern.ask
 import scala.concurrent.Await
-import akka.util.Timeout
-import scala.concurrent.duration._
-import com.caeldev.services.ContentTypeService
 import com.caeldev.actors.Operation._
 
 
@@ -16,8 +17,8 @@ import com.caeldev.actors.Operation._
  * Copyright (c) 2012 - 2013 Caeldev, Inc.
  *
  * User: cael
- * Date: 16/10/2013
- * Time: 19:10
+ * Date: 26/10/2013
+ * Time: 18:05
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,41 +34,41 @@ import com.caeldev.actors.Operation._
  *
  */
 @Service
-class ContentTypeSpringService extends ContentTypeService with ActorSystemComponent {
+class UserSpringService extends UserService with ActorSystemComponent {
 
   implicit val timeout = Timeout(5 seconds)
 
-  def list(pageSize:Int, pageNumber:Int):java.util.List[ContentType] = {
-    val contentTypeActor = system.actorOf(Props[ContentTypeActor])
-    val resultFuture = ask(contentTypeActor, List(pageSize, pageNumber)).mapTo[java.util.List[ContentType]]
+  def list(pageSize: Int, pageNumber: Int): util.List[User] = {
+    val userActor = system.actorOf(Props[UserActor])
+    val resultFuture = ask(userActor, List(pageSize, pageNumber)).mapTo[java.util.List[User]]
     val result = Await.result(resultFuture, timeout.duration)
     result
   }
 
   def delete(id: Long): Boolean = {
-    val contentTypeActor = system.actorOf(Props[ContentTypeActor])
-    val resultFuture = ask(contentTypeActor, Delete(id)).mapTo[Boolean]
+    val userActor = system.actorOf(Props[UserActor])
+    val resultFuture = ask(userActor, Delete(id)).mapTo[Boolean]
     val result = Await.result(resultFuture, timeout.duration)
     result
   }
 
-  def update(contentType: ContentType): ContentType = {
-    val contentTypeActor = system.actorOf(Props[ContentTypeActor])
-    val resultFuture = ask(contentTypeActor, Update(contentType)).mapTo[ContentType]
+  def update(entity: User): User = {
+    val userActor = system.actorOf(Props[UserActor])
+    val resultFuture = ask(userActor, Update(entity)).mapTo[User]
     val result = Await.result(resultFuture, timeout.duration)
     result
   }
 
-  def add(contentType: ContentType): ContentType = {
-    val contentTypeActor = system.actorOf(Props[ContentTypeActor])
-    val resultFuture = ask(contentTypeActor, Add(contentType)).mapTo[ContentType]
+  def add(entity: User): User = {
+    val userActor = system.actorOf(Props[UserActor])
+    val resultFuture = ask(userActor, Add(entity)).mapTo[User]
     val result = Await.result(resultFuture, timeout.duration)
     result
   }
 
-  def get(id:Long): ContentType = {
-    val contentTypeActor = system.actorOf(Props[ContentTypeActor])
-    val resultFuture = ask(contentTypeActor, Get(id)).mapTo[ContentType]
+  def get(id: Long): User = {
+    val userActor = system.actorOf(Props[UserActor])
+    val resultFuture = ask(userActor, Get(id)).mapTo[User]
     val result = Await.result(resultFuture, timeout.duration)
     result
   }

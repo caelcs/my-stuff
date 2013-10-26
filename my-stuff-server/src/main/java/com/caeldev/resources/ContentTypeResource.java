@@ -41,7 +41,7 @@ public class ContentTypeResource {
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     public Response getContentTypes(int pageSize, int pageNumber) {
-        List<ContentType> result = contentTypeSpringService.getContents(pageSize, pageNumber);
+        List<ContentType> result = contentTypeSpringService.list(pageSize, pageNumber);
         return Response.status(Response.Status.OK).entity(result).build();
     }
 

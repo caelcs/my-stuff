@@ -1,16 +1,17 @@
 package com.caeldev.actors
 
 import akka.actor.{ActorLogging, Actor}
-import com.caeldev.services.ContentTypeServiceRegistry
-import com.caeldev.domain.ContentType
+import com.caeldev.services.UserServiceRegistry
+import com.caeldev.domain.User
 import com.caeldev.actors.Operation._
+
 
 /**
  * Copyright (c) 2012 - 2013 Caeldev, Inc.
  *
  * User: cael
- * Date: 17/10/2013
- * Time: 15:53
+ * Date: 26/10/2013
+ * Time: 17:59
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,30 +26,30 @@ import com.caeldev.actors.Operation._
  * limitations under the License.
  *
  */
-class ContentTypeActor extends Actor with ActorLogging {
-
-  val contentTypeService = ContentTypeServiceRegistry.contentTypeService
+class UserActor extends Actor with ActorLogging {
+  val userService = UserServiceRegistry.userService
 
   def receive = {
     case List(pageSize:Int, pageNumber:Int) => {
       log.debug("Entering GetContents Method Actor")
-      sender ! contentTypeService.list(pageSize, pageNumber)
+      sender ! userService.list(pageSize, pageNumber)
     }
-    case Add(contentType:ContentType) => {
+    case Add(user:User) => {
       log.debug("Entering Add Method Actor")
-      sender ! contentTypeService.add(contentType)
+      sender ! userService.add(user)
     }
     case Delete(id:Long) => {
       log.debug("Entering Delete Method Actor")
-      sender ! contentTypeService.delete(id)
+      sender ! userService.delete(id)
     }
-    case Update(contentType:ContentType) => {
+    case Update(user:User) => {
       log.debug("Entering Update Method Actor")
-      sender ! contentTypeService.update(contentType)
+      sender ! userService.update(user)
     }
     case Get(id:Long) => {
       log.debug("Entering Get Method Actor")
-      sender ! contentTypeService.get(id)
+      sender ! userService.get(id)
     }
   }
+
 }
