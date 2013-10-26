@@ -31,6 +31,9 @@ class User extends Serializable {
   @BeanProperty var id:Long = _
 
   @Column(length = 12)
+  @BeanProperty var username:String = _
+
+  @Column(length = 50)
   @BeanProperty var email:String = _
 
   @Column(length = 12)
@@ -41,6 +44,21 @@ class User extends Serializable {
 
   @OneToMany(mappedBy = "user", cascade = Array(CascadeType.ALL))
   @BeanProperty var storageAccounts: java.util.List[StorageAccount] = _
+
+  def this(username:String, email:String, password:String) = {
+    this()
+    this.email = email
+    this.username = username
+    this.password = password
+  }
+
+  def this(id: Long, username:String, email:String, password:String) = {
+    this(username, email, password)
+    this.id = id
+  }
+
+
+
 }
 
 

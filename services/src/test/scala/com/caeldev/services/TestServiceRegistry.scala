@@ -22,4 +22,5 @@ package com.caeldev.services
  */
 object TestServiceRegistry {
   val contentTypeService = ContentTypeServiceRegistry.contentTypeService
+  val userService = UserServiceRegistry.userService
 }
