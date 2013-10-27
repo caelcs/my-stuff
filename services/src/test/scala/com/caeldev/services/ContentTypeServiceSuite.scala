@@ -4,7 +4,6 @@ import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import org.scalatest.FunSpec
 import org.scalatest.matchers.ShouldMatchers
-import com.caeldev.domain.ContentType
 
 /**
  * Copyright (c) 2012 - 2013 Caeldev, Inc.
@@ -27,37 +26,25 @@ import com.caeldev.domain.ContentType
  *
  */
 @RunWith(classOf[JUnitRunner])
-class ContentTypeServiceSuite extends FunSpec with ShouldMatchers {
+class ContentTypeServiceSuite extends FunSpec with ShouldMatchers with ContentTypeServiceCommons {
 
-  val contentTypeService = TestServiceRegistry.contentTypeService
+  var contentTypeService = TestServiceRegistry.contentTypeService
 
   describe("A ContentTypeService") {
     it("should add a new content type successfully.") {
-      val contentType = new ContentType("This is a Content Type for Test")
-      val result = contentTypeService.add(contentType)
-      result.name should be equals "This is a Content Type for Test"
-      contentTypeService.delete(result.id)
+      shouldAddNewContentType
     }
 
-    it("should delete an existent content type successfully.") {
-      val contentTypeAdd = new ContentType("This is a Content Type for Test")
-      val resultAdding = contentTypeService.add(contentTypeAdd)
-      resultAdding.name should be equals "This is a Content Type for Test"
-      contentTypeService.delete(resultAdding.id)
-
-      val result = contentTypeService.list(1, 1)
-      result should be ('empty)
+    it("should delete an existent content type by id successfully.") {
+      shouldDeleteContentTypeById
     }
 
     it("should update an existent content type successfully.") {
-      val contentTypeAdd = new ContentType("This is a Content Type for Test")
-      val resultAdding = contentTypeService.add(contentTypeAdd)
-      resultAdding.name should be equals "This is a Content Type for Test"
+      shouldUpdateAnExistentContentType
+    }
 
-      resultAdding.name = "This content type has been updated."
-      val contentUpdated = contentTypeService.update(resultAdding)
-      contentUpdated.name should be equals "This content type has been updated."
-      contentTypeService.delete(contentUpdated.id)
+    it("should get an existent content type successfully.") {
+      shouldGetAnExistentContentType
     }
 
   }

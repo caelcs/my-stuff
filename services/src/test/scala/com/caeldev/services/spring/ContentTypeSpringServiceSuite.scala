@@ -7,8 +7,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.beans.factory.annotation.Autowired
 import scala.beans.BeanProperty
-import com.caeldev.domain.ContentType
-import org.junit.Test
+import com.caeldev.services.{ContentTypeServiceCommons, ContentTypeService}
 
 /**
  * Copyright (c) 2012 - 2013 Caeldev, Inc.
@@ -32,55 +31,9 @@ import org.junit.Test
  */
 @RunWith(classOf[SpringJUnit4ClassRunner])
 @ContextConfiguration(locations = Array("/applicationContext.xml"))
-class ContentTypeSpringServiceSuite extends FunSpec with ShouldMatchers {
+class ContentTypeSpringServiceSuite extends FunSpec with ShouldMatchers with ContentTypeServiceCommons {
 
   @Autowired
-  @BeanProperty var contentTypeService:ContentTypeSpringService = _
+  @BeanProperty var contentTypeService:ContentTypeService = _
 
-  @Test
-  def shouldAddNewContentTypeSupportedByActor() {
-    val contentType = new ContentType("This is a Content Type for Test")
-    val result = contentTypeService.add(contentType)
-    result should not be null
-    result.name should be equals "This is a Content Type for Test"
-    contentTypeService.delete(result.id)
-  }
-
-  @Test
-  def shouldDeleteContentTypeByIdSupportedByActor() {
-    val contentType = new ContentType("This is a Content Type for Test")
-    val resultAdd = contentTypeService.add(contentType)
-    resultAdd should not be null
-    resultAdd.name should be equals "This is a Content Type for Test"
-    val result = contentTypeService.delete(resultAdd.id)
-    result should be (true)
-    val resultAll = contentTypeService.list(10, 1)
-    resultAll should be ('empty)
-  }
-
-  @Test
-  def shouldUpdateContentTypeSupportedByActor() {
-    val contentType = new ContentType("This is a Content Type for Test")
-    val resultAdd = contentTypeService.add(contentType)
-    resultAdd should not be null
-    resultAdd.name should be equals "This is a Content Type for Test"
-
-    resultAdd.name = "This content type has been updated."
-    val result = contentTypeService.update(resultAdd)
-
-    result.name should be equals "This content type has been updated."
-    contentTypeService.delete(result.id)
-  }
-
-  @Test
-  def shouldGetContentTypesSupportedByActor() {
-    val contentType = new ContentType("This is a Content Type for Test")
-    val resultAdd = contentTypeService.add(contentType)
-    resultAdd should not be null
-    resultAdd.name should be equals "This is a Content Type for Test"
-
-    val result = contentTypeService.list(10, 1)
-    result should not be 'empty
-    contentTypeService.delete(resultAdd.id)
-  }
 }
