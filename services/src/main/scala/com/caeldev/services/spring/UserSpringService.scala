@@ -1,6 +1,6 @@
 package com.caeldev.services.spring
 
-import org.springframework.stereotype.Service
+import org.springframework.stereotype.Component
 import com.caeldev.services.UserService
 import com.caeldev.actors.{UserActor, ActorSystemComponent}
 import akka.util.Timeout
@@ -34,7 +34,7 @@ import com.caeldev.actors.UserOperations.GetByUsername
  * limitations under the License.
  *
  */
-@Service
+@Component(value = "userSpringService")
 class UserSpringService extends UserService with ActorSystemComponent {
 
   implicit val timeout = Timeout(5 seconds)

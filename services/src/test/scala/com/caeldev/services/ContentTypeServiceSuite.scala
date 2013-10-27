@@ -47,6 +47,10 @@ class ContentTypeServiceSuite extends FunSpec with ShouldMatchers with ContentTy
       shouldGetAnExistentContentType
     }
 
+    it("should get the existent content types successfully.") {
+      shouldGetContentTypes
+    }
+
   }
 
 }

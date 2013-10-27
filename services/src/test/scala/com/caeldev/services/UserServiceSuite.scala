@@ -51,5 +51,9 @@ class UserServiceSuite extends FunSpec with ShouldMatchers with UserServiceCommo
       shouldGetUserByUsername
     }
 
+    it("should get the existent users successfully.") {
+      shouldGetUsers
+    }
+
   }
 }

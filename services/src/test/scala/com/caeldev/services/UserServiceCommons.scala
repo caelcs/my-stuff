@@ -95,4 +95,17 @@ trait UserServiceCommons extends ShouldMatchers {
     userService.delete(result.id)
   }
 
+  @Test
+  def shouldGetUsers() {
+    val user = new User("usertestspring5", "test@test.com", "userpassword")
+    val resultAdd = userService.add(user)
+    resultAdd should not be null
+    resultAdd.email should be equals "test@test.com"
+    resultAdd.username should be equals "usertestspring5"
+
+    val result = userService.list(10,1)
+    result.size should be > 0
+    userService.delete(resultAdd.id)
+  }
+
 }

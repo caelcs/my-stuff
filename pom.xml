@@ -287,6 +287,10 @@
                         <groupId>org.springframework</groupId>
                         <artifactId>spring-context</artifactId>
                     </exclusion>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-aop</artifactId>
+                    </exclusion>
                 </exclusions>
             </dependency>
             <!-- Web App libs -->
@@ -294,11 +298,6 @@
                 <groupId>javax.servlet</groupId>
                 <artifactId>servlet-api</artifactId>
                 <version>${servlet.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.mortbay.jetty</groupId>
-                <artifactId>jetty</artifactId>
-                <version>${jetty.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.eclipse.jetty</groupId>

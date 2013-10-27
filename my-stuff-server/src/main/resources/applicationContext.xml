@@ -7,7 +7,7 @@
            http://www.springframework.org/schema/context
            http://www.springframework.org/schema/context/spring-context-3.2.xsd">
 
-    <context:component-scan base-package="com.caeldev.services.spring, com.caeldev.resources"/>
+    <context:component-scan base-package="com.caeldev.services.spring, com.caeldev.resources, com.caeldev.security"/>
 
     <import resource="classpath:security-context.xml"/>
 

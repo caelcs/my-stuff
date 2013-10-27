@@ -114,6 +114,7 @@
                 <version>${jetty.version}</version>
                 <configuration>
                     <contextPath>/my-stuff-server</contextPath>
+                    <webApp>${basedir}/target/my-stuff-server.war</webApp>
                     <connectors>
                         <connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
                             <port>8080</port>

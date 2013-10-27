@@ -58,7 +58,7 @@
           class="org.springframework.security.cas.authentication.CasAuthenticationProvider">
         <property name="authenticationUserDetailsService">
             <bean class="org.springframework.security.core.userdetails.UserDetailsByNameServiceWrapper">
-                <constructor-arg ref="userService" />
+                <constructor-arg ref="userDetailsService" />
             </bean>
         </property>
         <property name="serviceProperties" ref="serviceProperties" />
@@ -74,13 +74,6 @@
         </property>
         <property name="key" value="casAuthProviderKey"/>
     </bean>
-
-    <security:jdbc-user-service
-        data-source-ref="dataSource"
-        users-by-username-query="select username, password from users where username=?"
-        authorities-by-username-query="select username, roleName from role..."
-        role-prefix="ROLE_"/>
-
 
     <!-- This filter handles a Single Logout Request from the CAS Server -->
     <bean id="singleLogoutFilter" class="org.jasig.cas.client.session.SingleSignOutFilter"/>

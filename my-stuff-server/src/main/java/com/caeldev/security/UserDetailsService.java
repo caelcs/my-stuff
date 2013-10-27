@@ -1,7 +1,12 @@
 package com.caeldev.security;
 
+import com.caeldev.domain.User;
+import com.caeldev.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Component;
 
 /**
  * Copyright (c) 2012 - 2013 Caeldev, Inc.
@@ -22,11 +27,17 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@Component(value = "userDetailsService")
 public class UserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
+
+    @Autowired
+    private UserService userService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
-        return null;
+        final User user = userService.getByUsername(username);
+        org.springframework.security.core.userdetails.User userDetails = new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), AuthorityUtils.NO_AUTHORITIES);
+        return userDetails;
     }
+
 }

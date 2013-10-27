@@ -1,6 +1,6 @@
 package com.caeldev.services.spring
 
-import org.springframework.stereotype.Service
+import org.springframework.stereotype.Component
 import com.caeldev.actors.{ContentTypeActor, ActorSystemComponent}
 import com.caeldev.domain.ContentType
 import akka.actor.Props
@@ -32,7 +32,7 @@ import com.caeldev.actors.Operation._
  * limitations under the License.
  *
  */
-@Service
+@Component(value = "contentTypeSpringService")
 class ContentTypeSpringService extends ContentTypeService with ActorSystemComponent {
 
   implicit val timeout = Timeout(5 seconds)

@@ -74,4 +74,18 @@ trait ContentTypeServiceCommons extends ShouldMatchers {
     contentTypeService.delete(resultAdd.id)
   }
 
+  @Test
+  def shouldGetContentTypes() {
+    val contentType = new ContentType("This is a Content Type for Test")
+    val resultAdd = contentTypeService.add(contentType)
+    resultAdd should not be null
+    resultAdd.name should be equals "This is a Content Type for Test"
+
+    val result = contentTypeService.list(10,1)
+    result.size should be > 0
+    contentTypeService.delete(resultAdd.id)
+  }
+
+
+
 }
