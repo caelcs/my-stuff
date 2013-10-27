@@ -4,7 +4,6 @@ import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import org.scalatest.FunSpec
 import org.scalatest.matchers.ShouldMatchers
-import com.caeldev.domain.User
 
 /**
  * Copyright (c) 2012 - 2013 Caeldev, Inc.
@@ -27,58 +26,30 @@ import com.caeldev.domain.User
  *
  */
 @RunWith(classOf[JUnitRunner])
-class UserServiceSuite extends FunSpec with ShouldMatchers {
+class UserServiceSuite extends FunSpec with ShouldMatchers with UserServiceCommons {
 
-  val userService = TestServiceRegistry.userService
+  var userService = TestServiceRegistry.userService
 
   describe("A UserService") {
     it("should add a new user successfully.") {
-      val user = new User("usertest", "test@test.com", "test")
-      val result = userService.add(user)
-      result.username should be equals "usertest"
-      result.email should be equals "test@test.com"
-      result.password should be equals "test"
-      userService.delete(result.id)
+      shouldAddNewUser
     }
 
     it("should delete an existent user successfully.") {
-      val user = new User("usertest1", "test@test.com", "test")
-      val resultAdd = userService.add(user)
-      resultAdd.username should be equals "usertest1"
-      resultAdd.email should be equals "test@test.com"
-      resultAdd.password should be equals "test"
-      userService.delete(resultAdd.id)
-
-      val result = userService.get(resultAdd.id)
-      result should be (null)
+      shouldDeleteUserById
     }
 
     it("should update an existent user successfully.") {
-      val user = new User("usertest2", "test@test.com", "test")
-      val resultAdd = userService.add(user)
-      resultAdd.username should be equals "usertest2"
-      resultAdd.email should be equals "test@test.com"
-      resultAdd.password should be equals "test"
+      shouldUpdateAnExistentUser
+    }
 
-      resultAdd.email = "updated@test.com"
-      val contentUpdated = userService.update(resultAdd)
-      contentUpdated.email should be equals "updated@test.com"
-      userService.delete(contentUpdated.id)
+    it("should get an existent user by id successfully.") {
+      shouldGetAExistentUserById
     }
 
     it("should get by username an existent user successfully.") {
-      val user = new User("usertest3", "test@test.com", "test")
-      val resultAdd = userService.add(user)
-      resultAdd.username should be equals "usertest3"
-      resultAdd.email should be equals "test@test.com"
-      resultAdd.password should be equals "test"
-
-      val result = userService.getByUsername("usertest3")
-      result.email should be equals "test@test.com"
-      result.username should be equals "usertest3"
-      result.password should be equals "test"
-
-      userService.delete(result.id)
+      shouldGetUserByUsername
     }
+
   }
 }

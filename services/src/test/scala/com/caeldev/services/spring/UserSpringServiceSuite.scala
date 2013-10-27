@@ -7,8 +7,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.beans.factory.annotation.Autowired
 import scala.beans.BeanProperty
-import com.caeldev.domain.User
-import org.junit.Test
+import com.caeldev.services.{UserService, UserServiceCommons}
 
 /**
  * Copyright (c) 2012 - 2013 Caeldev, Inc.
@@ -32,76 +31,11 @@ import org.junit.Test
  */
 @RunWith(classOf[SpringJUnit4ClassRunner])
 @ContextConfiguration(locations = Array("/applicationContext.xml"))
-class UserSpringServiceSuite extends FunSpec with ShouldMatchers {
+class UserSpringServiceSuite extends FunSpec with ShouldMatchers with UserServiceCommons {
 
   @Autowired
-  @BeanProperty var userService:UserSpringService = _
+  @BeanProperty var userService:UserService = _
 
-  @Test
-  def shouldAddNewUserSupportedByActor() {
-    val user = new User("usertestspring", "test@test.com", "userpassword")
-    val result = userService.add(user)
-    result should not be null
-    result.email should be equals "test@test.com"
-    result.username should be equals "usertestspring"
-    userService.delete(result.id)
-  }
 
-  @Test
-  def shouldDeleteUserByIdSupportedByActor() {
-    val user = new User("usertestspring1", "test@test.com", "userpassword")
-    val resultAdd = userService.add(user)
-    resultAdd should not be null
-    resultAdd.email should be equals "test@test.com"
-    resultAdd.username should be equals "usertestspring1"
 
-    val result = userService.delete(resultAdd.id)
-    result should be (true)
-    val resultAll = userService.list(10, 1)
-    resultAll should be ('empty)
-  }
-
-  @Test
-  def shouldUpdateUserSupportedByActor() {
-    val user = new User("usertestspring2", "test@test.com", "userpassword")
-    val resultAdd = userService.add(user)
-    resultAdd should not be null
-    resultAdd.email should be equals "test@test.com"
-    resultAdd.username should be equals "usertestspring2"
-
-    resultAdd.email = "testupdated@test.com"
-    val result = userService.update(resultAdd)
-
-    result.email should be equals "testupdated@test.com"
-    userService.delete(result.id)
-  }
-
-  @Test
-  def shouldGetUsersSupportedByActor() {
-    val user = new User("usertestspring3", "test@test.com", "userpassword")
-    val resultAdd = userService.add(user)
-    resultAdd should not be null
-    resultAdd.email should be equals "test@test.com"
-    resultAdd.username should be equals "usertestspring3"
-
-    val result = userService.get(resultAdd.id)
-    result should not be null
-    userService.delete(resultAdd.id)
-  }
-
-  @Test
-  def shouldGetUserByUsernameSupportedByActor() {
-    val user = new User("usertestspring4", "test@test.com", "userpassword")
-    val resultAdd = userService.add(user)
-    resultAdd should not be null
-    resultAdd.email should be equals "test@test.com"
-    resultAdd.username should be equals "usertestspring4"
-
-    val result = userService.getByUsername("usertestspring4")
-    result.email should be equals "test@test.com"
-    result.username should be equals "usertestspring4"
-    result.password should be equals "test"
-
-    userService.delete(result.id)
-  }
 }
