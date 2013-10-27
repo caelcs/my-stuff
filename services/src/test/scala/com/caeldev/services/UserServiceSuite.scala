@@ -42,21 +42,21 @@ class UserServiceSuite extends FunSpec with ShouldMatchers {
     }
 
     it("should delete an existent user successfully.") {
-      val user = new User("usertest", "test@test.com", "test")
+      val user = new User("usertest1", "test@test.com", "test")
       val resultAdd = userService.add(user)
-      resultAdd.username should be equals "usertest"
+      resultAdd.username should be equals "usertest1"
       resultAdd.email should be equals "test@test.com"
       resultAdd.password should be equals "test"
       userService.delete(resultAdd.id)
 
-      val result = userService.list(1, 1)
-      result should be ('empty)
+      val result = userService.get(resultAdd.id)
+      result should be (null)
     }
 
     it("should update an existent user successfully.") {
-      val user = new User("usertest", "test@test.com", "test")
+      val user = new User("usertest2", "test@test.com", "test")
       val resultAdd = userService.add(user)
-      resultAdd.username should be equals "usertest"
+      resultAdd.username should be equals "usertest2"
       resultAdd.email should be equals "test@test.com"
       resultAdd.password should be equals "test"
 
@@ -64,6 +64,21 @@ class UserServiceSuite extends FunSpec with ShouldMatchers {
       val contentUpdated = userService.update(resultAdd)
       contentUpdated.email should be equals "updated@test.com"
       userService.delete(contentUpdated.id)
+    }
+
+    it("should get by username an existent user successfully.") {
+      val user = new User("usertest3", "test@test.com", "test")
+      val resultAdd = userService.add(user)
+      resultAdd.username should be equals "usertest3"
+      resultAdd.email should be equals "test@test.com"
+      resultAdd.password should be equals "test"
+
+      val result = userService.getByUsername("usertest3")
+      result.email should be equals "test@test.com"
+      result.username should be equals "usertest3"
+      result.password should be equals "test"
+
+      userService.delete(result.id)
     }
   }
 }

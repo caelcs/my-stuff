@@ -30,13 +30,13 @@ class User extends Serializable {
   @Id @GeneratedValue
   @BeanProperty var id:Long = _
 
-  @Column(length = 12)
+  @Column(length = 50, unique = true)
   @BeanProperty var username:String = _
 
   @Column(length = 50)
   @BeanProperty var email:String = _
 
-  @Column(length = 12)
+  @Column(length = 50)
   @BeanProperty var password:String = _
 
   @Embedded

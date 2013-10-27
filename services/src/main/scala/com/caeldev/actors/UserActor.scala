@@ -4,6 +4,7 @@ import akka.actor.{ActorLogging, Actor}
 import com.caeldev.services.UserServiceRegistry
 import com.caeldev.domain.User
 import com.caeldev.actors.Operation._
+import com.caeldev.actors.UserOperations.GetByUsername
 
 
 /**
@@ -50,6 +51,14 @@ class UserActor extends Actor with ActorLogging {
       log.debug("Entering Get Method Actor")
       sender ! userService.get(id)
     }
+    case GetByUsername(username:String) => {
+      log.debug("Entering GetByUsername Method Actor")
+      sender ! userService.getByUsername(username)
+    }
   }
 
+}
+
+object UserOperations {
+  case class GetByUsername(username:String)
 }

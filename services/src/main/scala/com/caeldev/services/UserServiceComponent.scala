@@ -27,7 +27,9 @@ import com.googlecode.genericdao.search.{SearchResult, Search}
  *
  */
 
-trait UserService extends GenericService[User]
+trait UserService extends GenericService[User] {
+  def getByUsername(username:String):User
+}
 
 trait UserServiceComponent {
   this: UserDAOComponent =>
@@ -69,6 +71,15 @@ trait UserServiceComponentLive extends UserServiceComponent {
     def get(id: Long): User = {
       inTransaction{
         userDao.find(id)
+      }
+    }
+
+    def getByUsername(username: String): User = {
+      inTransaction{
+        val search = new Search()
+        search.addFilterEqual("username", username)
+        val user:User = userDao.searchUnique(search)
+        user
       }
     }
   }

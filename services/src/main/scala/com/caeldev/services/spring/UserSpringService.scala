@@ -11,6 +11,7 @@ import akka.actor.Props
 import akka.pattern.ask
 import scala.concurrent.Await
 import com.caeldev.actors.Operation._
+import com.caeldev.actors.UserOperations.GetByUsername
 
 
 /**
@@ -69,6 +70,13 @@ class UserSpringService extends UserService with ActorSystemComponent {
   def get(id: Long): User = {
     val userActor = system.actorOf(Props[UserActor])
     val resultFuture = ask(userActor, Get(id)).mapTo[User]
+    val result = Await.result(resultFuture, timeout.duration)
+    result
+  }
+
+  def getByUsername(username: String): User = {
+    val userActor = system.actorOf(Props[UserActor])
+    val resultFuture = ask(userActor, GetByUsername(username)).mapTo[User]
     val result = Await.result(resultFuture, timeout.duration)
     result
   }

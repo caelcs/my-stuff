@@ -39,21 +39,21 @@ class UserSpringServiceSuite extends FunSpec with ShouldMatchers {
 
   @Test
   def shouldAddNewUserSupportedByActor() {
-    val user = new User("usertest", "test@test.com", "userpassword")
+    val user = new User("usertestspring", "test@test.com", "userpassword")
     val result = userService.add(user)
     result should not be null
     result.email should be equals "test@test.com"
-    result.username should be equals "usertest"
+    result.username should be equals "usertestspring"
     userService.delete(result.id)
   }
 
   @Test
   def shouldDeleteUserByIdSupportedByActor() {
-    val user = new User("usertest", "test@test.com", "userpassword")
+    val user = new User("usertestspring1", "test@test.com", "userpassword")
     val resultAdd = userService.add(user)
     resultAdd should not be null
     resultAdd.email should be equals "test@test.com"
-    resultAdd.username should be equals "usertest"
+    resultAdd.username should be equals "usertestspring1"
 
     val result = userService.delete(resultAdd.id)
     result should be (true)
@@ -63,11 +63,11 @@ class UserSpringServiceSuite extends FunSpec with ShouldMatchers {
 
   @Test
   def shouldUpdateUserSupportedByActor() {
-    val user = new User("usertest", "test@test.com", "userpassword")
+    val user = new User("usertestspring2", "test@test.com", "userpassword")
     val resultAdd = userService.add(user)
     resultAdd should not be null
     resultAdd.email should be equals "test@test.com"
-    resultAdd.username should be equals "usertest"
+    resultAdd.username should be equals "usertestspring2"
 
     resultAdd.email = "testupdated@test.com"
     val result = userService.update(resultAdd)
@@ -78,14 +78,30 @@ class UserSpringServiceSuite extends FunSpec with ShouldMatchers {
 
   @Test
   def shouldGetUsersSupportedByActor() {
-    val user = new User("usertest", "test@test.com", "userpassword")
+    val user = new User("usertestspring3", "test@test.com", "userpassword")
     val resultAdd = userService.add(user)
     resultAdd should not be null
     resultAdd.email should be equals "test@test.com"
-    resultAdd.username should be equals "usertest"
+    resultAdd.username should be equals "usertestspring3"
 
-    val result = userService.list(10, 1)
-    result should not be 'empty
+    val result = userService.get(resultAdd.id)
+    result should not be null
     userService.delete(resultAdd.id)
+  }
+
+  @Test
+  def shouldGetUserByUsernameSupportedByActor() {
+    val user = new User("usertestspring4", "test@test.com", "userpassword")
+    val resultAdd = userService.add(user)
+    resultAdd should not be null
+    resultAdd.email should be equals "test@test.com"
+    resultAdd.username should be equals "usertestspring4"
+
+    val result = userService.getByUsername("usertestspring4")
+    result.email should be equals "test@test.com"
+    result.username should be equals "usertestspring4"
+    result.password should be equals "test"
+
+    userService.delete(result.id)
   }
 }
