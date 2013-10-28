@@ -42,6 +42,12 @@ class User extends Serializable {
   @Embedded
   @BeanProperty var profile:Profile = _
 
+  @Column
+  @BeanProperty var enabled:Boolean = _
+
+  @OneToMany(mappedBy = "user", cascade = Array(CascadeType.ALL))
+  @BeanProperty var authorities: java.util.List[Authority] = _
+
   @OneToMany(mappedBy = "user", cascade = Array(CascadeType.ALL))
   @BeanProperty var storageAccounts: java.util.List[StorageAccount] = _
 

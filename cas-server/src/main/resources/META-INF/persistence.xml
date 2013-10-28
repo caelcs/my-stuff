@@ -37,5 +37,6 @@
         <class>com.caeldev.domain.StorageAccount</class>
         <class>com.caeldev.domain.StorageProvider</class>
         <class>com.caeldev.domain.User</class>
+        <class>com.caeldev.domain.Authority</class>
 	</persistence-unit>
 </persistence>
