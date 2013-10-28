@@ -1,56 +1,56 @@
-INSERT INTO `mystuff`.`USER`
-(`id`,
-`email`,
-`enabled`,
-`password`,
-`cellPhone`,
-`username`)
+INSERT INTO USER
+(id,
+email,
+enabled,
+password,
+cellPhone,
+username)
 VALUES
 (1,
-"test@test.com",
+'test@test.com',
 true,
-"test",
-"0123456789",
-"test");
+'test',
+'0123456789',
+'test');
 
-INSERT INTO `mystuff`.`USER`
-(`id`,
-`email`,
-`enabled`,
-`password`,
-`cellPhone`,
-`username`)
+INSERT INTO USER
+(id,
+email,
+enabled,
+password,
+cellPhone,
+username)
 VALUES
 (2,
-"admin@test.com",
+'admin@test.com',
 true,
-"admin",
-"0123456789",
-"admin");
+'admin',
+'0123456789',
+'admin');
 
-INSERT INTO `mystuff`.`AUTHORITY`
-(`id`,
-`authority`,
-`user_id`)
+INSERT INTO AUTHORITY
+(id,
+authority,
+user_id)
 VALUES
 (1,
-"ROLE_USER",
+'ROLE_USER',
 1);
 
-INSERT INTO `mystuff`.`AUTHORITY`
-(`id`,
-`authority`,
-`user_id`)
+INSERT INTO AUTHORITY
+(id,
+authority,
+user_id)
 VALUES
 (2,
-"ROLE_USER",
+'ROLE_USER',
 2);
 
-INSERT INTO `mystuff`.`AUTHORITY`
-(`id`,
-`authority`,
-`user_id`)
+INSERT INTO AUTHORITY
+(id,
+authority,
+user_id)
 VALUES
 (3,
-"ROLE_SUPERVISOR",
+'ROLE_SUPERVISOR',
 2);
