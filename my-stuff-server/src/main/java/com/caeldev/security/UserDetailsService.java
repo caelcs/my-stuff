@@ -1,5 +1,6 @@
 package com.caeldev.security;
 
+import com.caeldev.domain.Authority;
 import com.caeldev.domain.User;
 import com.caeldev.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,9 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Copyright (c) 2012 - 2013 Caeldev, Inc.
@@ -36,8 +40,17 @@ public class UserDetailsService implements org.springframework.security.core.use
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         final User user = userService.getByUsername(username);
-        org.springframework.security.core.userdetails.User userDetails = new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), AuthorityUtils.NO_AUTHORITIES);
+        String[] authorities = extractAuthorities(user.authorities());
+        org.springframework.security.core.userdetails.User userDetails = new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), AuthorityUtils.createAuthorityList(authorities));
         return userDetails;
+    }
+
+    private String[] extractAuthorities(List<Authority> authorities) {
+        List<String> result = new ArrayList<String>();
+        for (Authority entity: authorities) {
+            result.add(entity.getAuthority());
+        }
+        return result.toArray(new String[result.size()]);
     }
 
 }
