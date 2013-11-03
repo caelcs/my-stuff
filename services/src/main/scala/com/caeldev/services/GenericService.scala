@@ -24,7 +24,7 @@ import com.caeldev.persistence.DatabaseTransactionException
  *
  */
 trait GenericService[T] extends ErrorHandler {
-  def list(pageSize:Int, pageNumber:Int):java.util.List[T]
+  def list(pageQuery:PageQuery):Page[T]
   def delete(id:Long):Boolean
   def update(entity:T):T
   def add(entity:T):T

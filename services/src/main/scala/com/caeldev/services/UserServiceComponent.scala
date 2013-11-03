@@ -2,7 +2,6 @@ package com.caeldev.services
 
 import com.caeldev.dao.UserDAOComponent
 import com.caeldev.domain.User
-import java.util
 import com.caeldev.persistence.DatabaseTransactionManager._
 import com.googlecode.genericdao.search.{SearchResult, Search}
 
@@ -42,11 +41,12 @@ trait UserServiceComponentLive extends UserServiceComponent {
   this: UserDAOComponent =>
 
   class UserServiceImpl extends UserService {
-    def list(pageSize: Int, pageNumber: Int): util.List[User] = {
+    def list(pageQuery:PageQuery): Page[User] = {
       inTransaction{
         val searchCriteria = new Search()
-        val result:SearchResult[User] = userDao.searchAndCount(searchCriteria)
-        result.getResult
+        val resultSearch:SearchResult[User] = userDao.searchAndCount(searchCriteria)
+        val result = new Page[User](resultSearch.getTotalCount, pageQuery.getPageNumber, pageQuery.getPageSize, resultSearch.getResult)
+        result
       }
     }
 

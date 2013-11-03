@@ -8,7 +8,7 @@ import akka.pattern.ask
 import scala.concurrent.{ExecutionContext, Await}
 import akka.util.Timeout
 import scala.concurrent.duration._
-import com.caeldev.services.{ServiceException, ContentTypeService}
+import com.caeldev.services.{Page, PageQuery, ServiceException, ContentTypeService}
 import com.caeldev.actors.Operation._
 import ExecutionContext.Implicits.global
 
@@ -40,11 +40,11 @@ class ContentTypeSpringService extends ContentTypeService with ActorSystemCompon
 
 
   @throws(classOf[ServiceException])
-  def list(pageSize:Int, pageNumber:Int):java.util.List[ContentType] = {
+  def list(pageQuery:PageQuery):Page[ContentType] = {
     val contentTypeActor = system.actorOf(Props[ContentTypeActor])
-    val resultFuture = ask(contentTypeActor, List(pageSize, pageNumber))
-      .mapTo[java.util.List[ContentType]]
-      .recover(errorHandler[java.util.List[ContentType]])
+    val resultFuture = ask(contentTypeActor, List(pageQuery))
+      .mapTo[Page[ContentType]]
+      .recover(errorHandler[Page[ContentType]])
     val result = Await.result(resultFuture, timeout.duration)
     result
   }

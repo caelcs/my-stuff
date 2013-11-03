@@ -44,8 +44,9 @@ trait ContentTypeServiceCommons extends ShouldMatchers {
     resultAdd.name should be equals "This is a Content Type for Test"
     val result = contentTypeService.delete(resultAdd.id)
     result should be (true)
-    val resultAll = contentTypeService.list(10, 1)
-    resultAll should be ('empty)
+    val pageQuery = new PageQuery(10, 1)
+    val resultAll = contentTypeService.list(pageQuery)
+    resultAll.result.results should be ('empty)
   }
 
   @Test
@@ -81,8 +82,9 @@ trait ContentTypeServiceCommons extends ShouldMatchers {
     resultAdd should not be null
     resultAdd.name should be equals "This is a Content Type for Test"
 
-    val result = contentTypeService.list(10,1)
-    result.size should be > 0
+    val pageQuery = new PageQuery(10, 1)
+    val result = contentTypeService.list(pageQuery)
+    result.result.size should be > 0
     contentTypeService.delete(resultAdd.id)
   }
 

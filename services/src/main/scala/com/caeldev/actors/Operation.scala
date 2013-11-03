@@ -1,5 +1,7 @@
 package com.caeldev.actors
 
+import com.caeldev.services.PageQuery
+
 /**
  * Copyright (c) 2012 - 2013 Caeldev, Inc.
  *
@@ -21,7 +23,7 @@ package com.caeldev.actors
  *
  */
 object Operation {
-  case class List(pageSize:Int, pageNumber:Int)
+  case class List(pageQuery:PageQuery)
   case class Add(entity:Any)
   case class Delete(id:Long)
   case class Update(entity:Any)

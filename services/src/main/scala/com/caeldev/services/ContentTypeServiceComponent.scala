@@ -40,11 +40,12 @@ trait ContentTypeServiceComponentLive extends ContentTypeServiceComponent {
 
   class ContentTypeServiceImpl extends ContentTypeService {
 
-    def list(pageSize:Int, pageNumber:Int):java.util.List[ContentType] = {
+    def list(pageQuery:PageQuery):Page[ContentType] = {
       inTransaction{
         val searchCriteria = new Search()
-        val result:SearchResult[ContentType] = contentTypeDao.searchAndCount(searchCriteria)
-        result.getResult
+        val resultSearch:SearchResult[ContentType] = contentTypeDao.searchAndCount(searchCriteria)
+        val result = new Page[ContentType](resultSearch.getTotalCount, pageQuery.getPageNumber, pageQuery.getPageSize, resultSearch.getResult)
+        result
       }
     }
 

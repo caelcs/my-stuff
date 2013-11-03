@@ -25,33 +25,38 @@ import scala.beans.BeanProperty
 
 class PageQuery extends Serializable {
 
-  def this(pageNumber:Long, pageSize:Long) {
+  def this(pageSize:Int, pageNumber:Int) {
     this()
     this.pageNumber = pageNumber
     this.pageSize = pageSize
   }
 
-  @BeanProperty var pageNumber:Long = _
-  @BeanProperty var pageSize:Long = _
+  @BeanProperty var pageNumber:Int = _
+  @BeanProperty var pageSize:Int = _
 }
 
 class Page[T] extends PageQuery with Serializable {
 
-  def this(totalCount:Long, totalPages:Long, pageNumber:Long, pageSize:Long, result:Result[T]) {
+  def this(totalCount:Int, pageNumber:Int, pageSize:Int, results:java.util.List[T]) {
     this()
     this.totalCount = totalCount
-    this.totalPages = totalPages
     this.pageNumber = pageNumber
     this.pageSize = pageSize
-    this.result = result
+    this.result = new Result[T](results)
   }
 
-  @BeanProperty var totalCount:Long = _
-  @BeanProperty var totalPages:Long = _
+  @BeanProperty var totalCount:Int = _
   @BeanProperty var result:Result[T] = _
 }
 
 class Result[T] extends Serializable {
-  @BeanProperty var result:List[T] = _
-  @BeanProperty var totalResult:Long = _
+
+  def this(result:java.util.List[T]) {
+    this()
+    this.results = result
+    this.size = result.size()
+  }
+
+  @BeanProperty var results:java.util.List[T] = _
+  @BeanProperty var size:Int = _
 }

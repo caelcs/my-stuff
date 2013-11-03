@@ -47,8 +47,10 @@ trait UserServiceCommons extends ShouldMatchers {
 
     val result = userService.delete(resultAdd.id)
     result should be (true)
-    val resultAll = userService.list(10, 1)
-    resultAll should be ('empty)
+
+    val pageQuery = new PageQuery(10, 1)
+    val resultAll = userService.list(pageQuery)
+    resultAll.result.results should be ('empty)
   }
 
   @Test
@@ -103,8 +105,9 @@ trait UserServiceCommons extends ShouldMatchers {
     resultAdd.email should be equals "test@test.com"
     resultAdd.username should be equals "usertestspring5"
 
-    val result = userService.list(10,1)
-    result.size should be > 0
+    val pageQuery = new PageQuery(10, 1)
+    val result = userService.list(pageQuery)
+    result.result.size should be > 0
     userService.delete(resultAdd.id)
   }
 

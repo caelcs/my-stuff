@@ -1,6 +1,8 @@
 package com.caeldev.resources;
 
 import com.caeldev.domain.ContentType;
+import com.caeldev.services.Page;
+import com.caeldev.services.PageQuery;
 import com.caeldev.services.ServiceException;
 import com.caeldev.services.spring.ContentTypeSpringService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +11,6 @@ import org.springframework.stereotype.Component;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.List;
 
 /**
  * Copyright (c) 2012 - 2013 Caeldev, Inc.
@@ -41,9 +42,9 @@ public class ContentTypeResource {
     @Path("/list")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    public Response getContentTypes(int pageSize, int pageNumber) {
+    public Response getContentTypes(PageQuery pageQuery) {
         try {
-            List<ContentType> result = contentTypeSpringService.list(pageSize, pageNumber);
+            Page<ContentType> result = contentTypeSpringService.list(pageQuery);
             return Response.status(Response.Status.OK).entity(result).build();
         } catch (ServiceException e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();

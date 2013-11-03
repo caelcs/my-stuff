@@ -1,7 +1,7 @@
 package com.caeldev.actors
 
 import akka.actor.{ActorLogging, Actor}
-import com.caeldev.services.ContentTypeServiceRegistry
+import com.caeldev.services.{PageQuery, ContentTypeServiceRegistry}
 import com.caeldev.domain.ContentType
 import com.caeldev.actors.Operation._
 
@@ -30,9 +30,9 @@ class ContentTypeActor extends Actor with ActorLogging {
   val contentTypeService = ContentTypeServiceRegistry.contentTypeService
 
   def receive = {
-    case List(pageSize:Int, pageNumber:Int) => {
+    case List(pageQuery:PageQuery) => {
       log.debug("Entering GetContents Method Actor")
-      sender ! contentTypeService.list(pageSize, pageNumber)
+      sender ! contentTypeService.list(pageQuery)
     }
     case Add(contentType:ContentType) => {
       log.debug("Entering Add Method Actor")
