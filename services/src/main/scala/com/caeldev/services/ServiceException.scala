@@ -1,13 +1,11 @@
 package com.caeldev.services
 
-import scala.concurrent._
-
 /**
  * Copyright (c) 2012 - 2013 Caeldev, Inc.
  *
  * User: cael
- * Date: 26/10/2013
- * Time: 17:27
+ * Date: 03/11/2013
+ * Time: 01:14
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,15 +20,4 @@ import scala.concurrent._
  * limitations under the License.
  *
  */
-trait GenericService[T] {
-  def list(pageSize:Int, pageNumber:Int):java.util.List[T]
-  def delete(id:Long):Boolean
-  def update(entity:T):T
-  def add(entity:T):T
-  def get(id:Long):T
-
-  def errorHandler[T]: PartialFunction[Throwable, T] = {
-    case e: TimeoutException => throw ServiceException(e.getMessage)
-    case e: Exception => throw ServiceException(e.getMessage)
-  }
-}
+case class ServiceException(message: String) extends Exception(message)

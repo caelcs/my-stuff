@@ -1,7 +1,7 @@
 package com.caeldev.services.spring
 
 import org.springframework.stereotype.Component
-import com.caeldev.services.UserService
+import com.caeldev.services.{ServiceException, UserService}
 import com.caeldev.actors.{UserActor, ActorSystemComponent}
 import akka.util.Timeout
 import scala.concurrent.duration._
@@ -9,10 +9,11 @@ import com.caeldev.domain.User
 import java.util
 import akka.actor.Props
 import akka.pattern.ask
-import scala.concurrent.Await
+import scala.concurrent.{ExecutionContext, Await}
 import com.caeldev.actors.Operation._
 import com.caeldev.actors.UserOperations.GetByUsername
-
+import scala.throws
+import ExecutionContext.Implicits.global
 
 /**
  * Copyright (c) 2012 - 2013 Caeldev, Inc.
@@ -39,44 +40,62 @@ class UserSpringService extends UserService with ActorSystemComponent {
 
   implicit val timeout = Timeout(5 seconds)
 
+  @throws(classOf[ServiceException])
   def list(pageSize: Int, pageNumber: Int): util.List[User] = {
     val userActor = system.actorOf(Props[UserActor])
-    val resultFuture = ask(userActor, List(pageSize, pageNumber)).mapTo[java.util.List[User]]
+    val resultFuture = ask(userActor, List(pageSize, pageNumber))
+      .mapTo[java.util.List[User]]
+      .recover(errorHandler[java.util.List[User]])
     val result = Await.result(resultFuture, timeout.duration)
     result
   }
 
+  @throws(classOf[ServiceException])
   def delete(id: Long): Boolean = {
     val userActor = system.actorOf(Props[UserActor])
-    val resultFuture = ask(userActor, Delete(id)).mapTo[Boolean]
+    val resultFuture = ask(userActor, Delete(id))
+      .mapTo[Boolean]
+      .recover(errorHandler[Boolean])
     val result = Await.result(resultFuture, timeout.duration)
     result
   }
 
+  @throws(classOf[ServiceException])
   def update(entity: User): User = {
     val userActor = system.actorOf(Props[UserActor])
-    val resultFuture = ask(userActor, Update(entity)).mapTo[User]
+    val resultFuture = ask(userActor, Update(entity))
+      .mapTo[User]
+      .recover(errorHandler[User])
     val result = Await.result(resultFuture, timeout.duration)
     result
   }
 
+  @throws(classOf[ServiceException])
   def add(entity: User): User = {
     val userActor = system.actorOf(Props[UserActor])
-    val resultFuture = ask(userActor, Add(entity)).mapTo[User]
+    val resultFuture = ask(userActor, Add(entity))
+      .mapTo[User]
+      .recover(errorHandler[User])
     val result = Await.result(resultFuture, timeout.duration)
     result
   }
 
+  @throws(classOf[ServiceException])
   def get(id: Long): User = {
     val userActor = system.actorOf(Props[UserActor])
-    val resultFuture = ask(userActor, Get(id)).mapTo[User]
+    val resultFuture = ask(userActor, Get(id))
+      .mapTo[User]
+      .recover(errorHandler[User])
     val result = Await.result(resultFuture, timeout.duration)
     result
   }
 
+  @throws(classOf[ServiceException])
   def getByUsername(username: String): User = {
     val userActor = system.actorOf(Props[UserActor])
-    val resultFuture = ask(userActor, GetByUsername(username)).mapTo[User]
+    val resultFuture = ask(userActor, GetByUsername(username))
+      .mapTo[User]
+      .recover(errorHandler[User])
     val result = Await.result(resultFuture, timeout.duration)
     result
   }

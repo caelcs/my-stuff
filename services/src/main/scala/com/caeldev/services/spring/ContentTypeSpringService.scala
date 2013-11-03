@@ -5,11 +5,12 @@ import com.caeldev.actors.{ContentTypeActor, ActorSystemComponent}
 import com.caeldev.domain.ContentType
 import akka.actor.Props
 import akka.pattern.ask
-import scala.concurrent.Await
+import scala.concurrent.{ExecutionContext, Await}
 import akka.util.Timeout
 import scala.concurrent.duration._
-import com.caeldev.services.ContentTypeService
+import com.caeldev.services.{ServiceException, ContentTypeService}
 import com.caeldev.actors.Operation._
+import ExecutionContext.Implicits.global
 
 
 /**
@@ -37,20 +38,28 @@ class ContentTypeSpringService extends ContentTypeService with ActorSystemCompon
 
   implicit val timeout = Timeout(5 seconds)
 
+
+  @throws(classOf[ServiceException])
   def list(pageSize:Int, pageNumber:Int):java.util.List[ContentType] = {
     val contentTypeActor = system.actorOf(Props[ContentTypeActor])
-    val resultFuture = ask(contentTypeActor, List(pageSize, pageNumber)).mapTo[java.util.List[ContentType]]
+    val resultFuture = ask(contentTypeActor, List(pageSize, pageNumber))
+      .mapTo[java.util.List[ContentType]]
+      .recover(errorHandler[java.util.List[ContentType]])
     val result = Await.result(resultFuture, timeout.duration)
     result
   }
 
+  @throws(classOf[ServiceException])
   def delete(id: Long): Boolean = {
     val contentTypeActor = system.actorOf(Props[ContentTypeActor])
-    val resultFuture = ask(contentTypeActor, Delete(id)).mapTo[Boolean]
+    val resultFuture = ask(contentTypeActor, Delete(id))
+      .mapTo[Boolean]
+      .recover(errorHandler[Boolean])
     val result = Await.result(resultFuture, timeout.duration)
     result
   }
 
+  @throws(classOf[ServiceException])
   def update(contentType: ContentType): ContentType = {
     val contentTypeActor = system.actorOf(Props[ContentTypeActor])
     val resultFuture = ask(contentTypeActor, Update(contentType)).mapTo[ContentType]
@@ -58,16 +67,22 @@ class ContentTypeSpringService extends ContentTypeService with ActorSystemCompon
     result
   }
 
+  @throws(classOf[ServiceException])
   def add(contentType: ContentType): ContentType = {
     val contentTypeActor = system.actorOf(Props[ContentTypeActor])
-    val resultFuture = ask(contentTypeActor, Add(contentType)).mapTo[ContentType]
+    val resultFuture = ask(contentTypeActor, Add(contentType))
+      .mapTo[ContentType]
+      .recover(errorHandler[ContentType])
     val result = Await.result(resultFuture, timeout.duration)
     result
   }
 
+  @throws(classOf[ServiceException])
   def get(id:Long): ContentType = {
     val contentTypeActor = system.actorOf(Props[ContentTypeActor])
-    val resultFuture = ask(contentTypeActor, Get(id)).mapTo[ContentType]
+    val resultFuture = ask(contentTypeActor, Get(id))
+      .mapTo[ContentType]
+      .recover(errorHandler[ContentType])
     val result = Await.result(resultFuture, timeout.duration)
     result
   }

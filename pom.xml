@@ -34,6 +34,7 @@
         <servlet.version>2.4</servlet.version>
         <jetty.version>6.1.26</jetty.version>
         <jetty.server.version>9.0.6.v20130930</jetty.server.version>
+        <jackson.json.version>2.2.3</jackson.json.version>
     </properties>
 
     <modules>
@@ -305,6 +306,14 @@
                 <version>${jetty.server.version}</version>
                 <scope>test</scope>
             </dependency>
+
+            <!-- Rest Providers -->
+            <dependency>
+                <groupId>com.fasterxml.jackson.jaxrs</groupId>
+                <artifactId>jackson-jaxrs-json-provider</artifactId>
+                <version>${jackson.json.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
     <pluginRepositories>

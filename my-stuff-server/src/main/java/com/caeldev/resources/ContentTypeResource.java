@@ -1,6 +1,7 @@
 package com.caeldev.resources;
 
 import com.caeldev.domain.ContentType;
+import com.caeldev.services.ServiceException;
 import com.caeldev.services.spring.ContentTypeSpringService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -41,8 +42,12 @@ public class ContentTypeResource {
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     public Response getContentTypes(int pageSize, int pageNumber) {
-        List<ContentType> result = contentTypeSpringService.list(pageSize, pageNumber);
-        return Response.status(Response.Status.OK).entity(result).build();
+        try {
+            List<ContentType> result = contentTypeSpringService.list(pageSize, pageNumber);
+            return Response.status(Response.Status.OK).entity(result).build();
+        } catch (ServiceException e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @POST
@@ -50,8 +55,12 @@ public class ContentTypeResource {
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     public Response add(ContentType contentType) {
-        ContentType result = contentTypeSpringService.add(contentType);
-        return Response.status(Response.Status.CREATED).entity(result).build();
+        try {
+            ContentType result = contentTypeSpringService.add(contentType);
+            return Response.status(Response.Status.CREATED).entity(result).build();
+        } catch (ServiceException e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @PUT
@@ -59,23 +68,35 @@ public class ContentTypeResource {
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     public Response update(ContentType contentType) {
-        ContentType result = contentTypeSpringService.update(contentType);
-        return Response.status(Response.Status.OK).entity(result).build();
+        try {
+            ContentType result = contentTypeSpringService.update(contentType);
+            return Response.status(Response.Status.OK).entity(result).build();
+        } catch (ServiceException e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @DELETE
     @Path("/{id}")
     @Produces({MediaType.APPLICATION_JSON})
     public Response delete(@PathParam("id")Long id) {
-        contentTypeSpringService.delete(id);
-        return Response.status(Response.Status.NO_CONTENT).build();
+        try {
+            contentTypeSpringService.delete(id);
+            return Response.status(Response.Status.NO_CONTENT).build();
+        } catch (ServiceException e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @GET
     @Path("/{id}")
     @Produces({MediaType.APPLICATION_JSON})
     public Response get(@PathParam("id")Long id) {
-        ContentType result = contentTypeSpringService.get(id);
-        return Response.status(Response.Status.OK).entity(result).build();
+        try {
+            ContentType result = contentTypeSpringService.get(id);
+            return Response.status(Response.Status.OK).entity(result).build();
+        } catch (ServiceException e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
     }
 }
