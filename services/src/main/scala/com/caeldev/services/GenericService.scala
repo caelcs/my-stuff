@@ -1,6 +1,7 @@
 package com.caeldev.services
 
 import scala.concurrent._
+import com.caeldev.persistence.DatabaseTransactionException
 
 /**
  * Copyright (c) 2012 - 2013 Caeldev, Inc.
@@ -22,15 +23,18 @@ import scala.concurrent._
  * limitations under the License.
  *
  */
-trait GenericService[T] {
+trait GenericService[T] extends ErrorHandler {
   def list(pageSize:Int, pageNumber:Int):java.util.List[T]
   def delete(id:Long):Boolean
   def update(entity:T):T
   def add(entity:T):T
   def get(id:Long):T
+}
 
+trait ErrorHandler {
   def errorHandler[T]: PartialFunction[Throwable, T] = {
     case e: TimeoutException => throw ServiceException(e.getMessage)
+    case e: DatabaseTransactionException => throw ServiceException(e.getMessage)
     case e: Exception => throw ServiceException(e.getMessage)
   }
 }
