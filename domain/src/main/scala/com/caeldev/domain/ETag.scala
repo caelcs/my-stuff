@@ -1,14 +1,14 @@
 package com.caeldev.domain
 
-import javax.persistence._
+import javax.persistence.Column
 import scala.beans.BeanProperty
 
 /**
  * Copyright (c) 2012 - 2013 Caeldev, Inc.
  *
  * User: cael
- * Date: 03/10/2013
- * Time: 13:05
+ * Date: 04/11/2013
+ * Time: 18:26
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,14 +23,9 @@ import scala.beans.BeanProperty
  * limitations under the License.
  *
  */
-@Entity
-@Table(name="LABEL")
-class Label extends Serializable with ETag {
+trait ETag {
 
-  @Id @GeneratedValue
-  @BeanProperty var id:Long = _
-
-  @Column(length = 200)
-  @BeanProperty var name:String = _
+  @Column
+  @BeanProperty var etag:Long = _
 
 }

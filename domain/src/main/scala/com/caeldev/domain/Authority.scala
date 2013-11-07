@@ -25,7 +25,7 @@ import scala.beans.BeanProperty
  */
 @Entity
 @Table(name ="AUTHORITY")
-class Authority {
+class Authority extends Serializable with ETag {
 
   @Id
   @BeanProperty var id:Long = _

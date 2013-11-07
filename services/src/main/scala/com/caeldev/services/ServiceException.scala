@@ -20,4 +20,8 @@ package com.caeldev.services
  * limitations under the License.
  *
  */
-case class ServiceException(message: String) extends Exception(message)
+case class ServiceException(message: String) extends Exception(message) {
+  def this(exception: Exception) {
+    this(exception.getMessage)
+  }
+}

@@ -2,6 +2,7 @@ package com.caeldev.domain
 
 import javax.persistence._
 import scala.beans.BeanProperty
+import java.util.Date
 
 /**
  * Copyright (c) 2012 - 2013 Caeldev, Inc.
@@ -25,7 +26,7 @@ import scala.beans.BeanProperty
  */
 @Entity
 @Table(name = "USER")
-class User extends Serializable {
+class User extends Serializable with ETag {
 
   @Id @GeneratedValue
   @BeanProperty var id:Long = _
@@ -62,9 +63,6 @@ class User extends Serializable {
     this(username, email, password)
     this.id = id
   }
-
-
-
 }
 
 

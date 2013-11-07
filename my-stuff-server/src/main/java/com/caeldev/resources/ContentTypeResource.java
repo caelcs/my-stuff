@@ -1,6 +1,10 @@
 package com.caeldev.resources;
 
 import com.caeldev.domain.ContentType;
+import com.caeldev.resources.util.*;
+import com.caeldev.resources.validations.ETagPreConditionsValidation;
+import com.caeldev.resources.validations.Validation;
+import com.caeldev.resources.validations.ValidationException;
 import com.caeldev.services.Page;
 import com.caeldev.services.PageQuery;
 import com.caeldev.services.ServiceException;
@@ -9,8 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import javax.ws.rs.core.*;
 
 /**
  * Copyright (c) 2012 - 2013 Caeldev, Inc.
@@ -65,10 +68,10 @@ public class ContentTypeResource {
     }
 
     @PUT
-    @Path("/")
+    @Path("/{id}")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    public Response update(ContentType contentType) {
+    public Response update(@PathParam("id")Long id, ContentType contentType) {
         try {
             ContentType result = contentTypeSpringService.update(contentType);
             return Response.status(Response.Status.OK).entity(result).build();
@@ -92,12 +95,12 @@ public class ContentTypeResource {
     @GET
     @Path("/{id}")
     @Produces({MediaType.APPLICATION_JSON})
-    public Response get(@PathParam("id")Long id) {
-        try {
-            ContentType result = contentTypeSpringService.get(id);
-            return Response.status(Response.Status.OK).entity(result).build();
-        } catch (ServiceException e) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
-        }
+    public Response get(@PathParam("id")Long id, @Context Request request) throws ServiceException, ValidationException {
+        ContentType result = contentTypeSpringService.get(id);
+        ETagBuilder etagBuilder = new ETagBuilderImpl<>(result);
+        EntityTag eTag = etagBuilder.build();
+        Validation validation = new ETagPreConditionsValidation(eTag, request);
+        validation.execute();
+        return Response.status(Response.Status.OK).entity(result).tag(eTag).build();
     }
 }
