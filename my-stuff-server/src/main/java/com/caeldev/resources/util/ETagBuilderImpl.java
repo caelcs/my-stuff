@@ -2,6 +2,7 @@ package com.caeldev.resources.util;
 
 import com.caeldev.services.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.core.EntityTag;
@@ -30,18 +31,12 @@ import java.io.Serializable;
  * limitations under the License.
  */
 @Component
+@Scope("prototype")
 public class ETagBuilderImpl<T extends Serializable> implements ETagBuilder<T> {
 
     private T entity;
-    @Autowired private HashCodeGenerator hashCodeGenerator;
-
-    public ETagBuilderImpl() {
-        super();
-    }
-
-    public ETagBuilderImpl(final T entity) {
-        this.entity = entity;
-    }
+    @Autowired
+    private HashCodeGenerator hashCodeGenerator;
 
     @Override
     public EntityTag build() throws ServiceException {

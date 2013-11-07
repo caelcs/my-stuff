@@ -2,10 +2,8 @@ package com.caeldev.resources.util;
 
 import com.google.common.hash.HashFunction;
 import com.google.common.hash.Hashing;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 /**
  * Copyright (c) 2012 - 2013 Caeldev, Inc.
@@ -27,6 +25,7 @@ import java.security.NoSuchAlgorithmException;
  * limitations under the License.
  */
 @Component
+@Scope("prototype")
 public class HashCodeGeneratorMD5Impl implements HashCodeGenerator {
 
     private HashFunction hf = Hashing.md5();

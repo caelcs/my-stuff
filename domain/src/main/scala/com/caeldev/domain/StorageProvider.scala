@@ -25,7 +25,7 @@ import scala.beans.BeanProperty
  */
 @Entity
 @Table(name="STORAGE_PROVIDER")
-class StorageProvider extends Serializable with ETag {
+class StorageProvider extends Serializable {
 
   @Id @GeneratedValue
   @Column(name = "id", updatable = false, nullable = false)

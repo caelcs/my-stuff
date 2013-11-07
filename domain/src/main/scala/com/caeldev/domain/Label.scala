@@ -25,7 +25,7 @@ import scala.beans.BeanProperty
  */
 @Entity
 @Table(name="LABEL")
-class Label extends Serializable with ETag {
+class Label extends Serializable {
 
   @Id @GeneratedValue
   @BeanProperty var id:Long = _

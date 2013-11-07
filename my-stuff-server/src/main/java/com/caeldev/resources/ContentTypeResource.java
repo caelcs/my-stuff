@@ -41,66 +41,56 @@ public class ContentTypeResource {
     @Autowired
     private ContentTypeSpringService contentTypeSpringService;
 
+    @Autowired
+    private ETagBuilder<ContentType> eTagBuilder;
+
     @POST
     @Path("/list")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    public Response getContentTypes(PageQuery pageQuery) {
-        try {
-            Page<ContentType> result = contentTypeSpringService.list(pageQuery);
-            return Response.status(Response.Status.OK).entity(result).build();
-        } catch (ServiceException e) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
-        }
+    public Response getContentTypes(PageQuery pageQuery) throws ServiceException {
+        Page<ContentType> result = contentTypeSpringService.list(pageQuery);
+        return Response.status(Response.Status.OK).entity(result).build();
     }
 
     @POST
     @Path("/")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    public Response add(ContentType contentType) {
-        try {
-            ContentType result = contentTypeSpringService.add(contentType);
-            return Response.status(Response.Status.CREATED).entity(result).build();
-        } catch (ServiceException e) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
-        }
+    public Response add(ContentType contentType) throws ServiceException {
+        //Generate ETag
+        eTagBuilder.setEntity(contentType);
+        EntityTag eTag = eTagBuilder.build();
+
+        ContentType result = contentTypeSpringService.add(contentType);
+        return Response.status(Response.Status.CREATED).entity(result).tag(eTag).build();
     }
 
     @PUT
     @Path("/{id}")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    public Response update(@PathParam("id")Long id, ContentType contentType) {
-        try {
-            ContentType result = contentTypeSpringService.update(contentType);
-            return Response.status(Response.Status.OK).entity(result).build();
-        } catch (ServiceException e) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
-        }
+    public Response update(@PathParam("id")Long id, ContentType contentType) throws ServiceException {
+        ContentType result = contentTypeSpringService.update(contentType);
+        return Response.status(Response.Status.OK).entity(result).build();
     }
 
     @DELETE
     @Path("/{id}")
     @Produces({MediaType.APPLICATION_JSON})
-    public Response delete(@PathParam("id")Long id) {
-        try {
-            contentTypeSpringService.delete(id);
-            return Response.status(Response.Status.NO_CONTENT).build();
-        } catch (ServiceException e) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
-        }
+    public Response delete(@PathParam("id")Long id) throws ServiceException {
+        contentTypeSpringService.delete(id);
+        return Response.status(Response.Status.NO_CONTENT).build();
     }
 
     @GET
     @Path("/{id}")
     @Produces({MediaType.APPLICATION_JSON})
-    public Response get(@PathParam("id")Long id, @Context Request request) throws ServiceException, ValidationException {
+    public Response get(@PathParam("id")Long id) throws ServiceException, ValidationException {
         ContentType result = contentTypeSpringService.get(id);
-        ETagBuilder etagBuilder = new ETagBuilderImpl<>(result);
-        EntityTag eTag = etagBuilder.build();
-        Validation validation = new ETagPreConditionsValidation(eTag, request);
-        validation.execute();
+        //Generate ETag based on ContentType
+        eTagBuilder.setEntity(result);
+        EntityTag eTag = eTagBuilder.build();
         return Response.status(Response.Status.OK).entity(result).tag(eTag).build();
     }
 }
