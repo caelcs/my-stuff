@@ -9,6 +9,8 @@ import com.caeldev.services.Page;
 import com.caeldev.services.PageQuery;
 import com.caeldev.services.ServiceException;
 import com.caeldev.services.spring.ContentTypeSpringService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -40,6 +42,8 @@ import javax.ws.rs.core.*;
 @Path("/contenttype")
 public class ContentTypeResource {
 
+    private static final Logger logger = LoggerFactory.getLogger(ContentTypeResource.class);
+
     @Autowired
     private ContentTypeSpringService contentTypeSpringService;
 
@@ -60,7 +64,7 @@ public class ContentTypeResource {
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     public Response add(ContentType contentType) throws ServiceException {
-        //Generate ETag
+        logger.debug("Generating ETag from the Entity.");
         EntityTag eTag = eTagBuilder.withEntity(contentType).build();
         ContentType result = contentTypeSpringService.add(contentType);
         return Response.status(Response.Status.CREATED).entity(result).tag(eTag).build();
@@ -72,14 +76,14 @@ public class ContentTypeResource {
     @Produces({MediaType.APPLICATION_JSON})
     public Response update(@PathParam("id")Long id, ContentType contentType,
                            @Context Request request) throws ServiceException, ValidationException {
-        //Get the current entity
+        logger.debug("Getting Entity from DB by Id");
         ContentType updatedContentType = contentTypeSpringService.get(id);
-        //Generate an EntityTag from the entity got it from backend.
+        logger.debug("Building ETag from Entity loaded from Database.");
         EntityTag entityTag = eTagBuilder.withEntity(updatedContentType).build();
-        //Validate if the Etag in the request match wth the etag generated
+        logger.debug("Validating Etag generated with If-None-Match tag.");
         Validation preValidation = new ETagPreConditionsValidation(entityTag, request);
         preValidation.execute();
-        //update the entity
+        logger.debug("Building ETag from new Entity to be updated.");
         EntityTag newEntityTag = eTagBuilder.withEntity(contentType).build();
         ContentType result = contentTypeSpringService.update(contentType);
         return Response.status(Response.Status.OK).entity(result).tag(newEntityTag).build();
@@ -98,7 +102,7 @@ public class ContentTypeResource {
     @Produces({MediaType.APPLICATION_JSON})
     public Response get(@PathParam("id")Long id) throws ServiceException, ValidationException {
         ContentType result = contentTypeSpringService.get(id);
-        //Generate ETag based on ContentType
+        logger.debug("Generating ETag from the Entity.");
         EntityTag eTag = eTagBuilder.withEntity(result).build();
         return Response.status(Response.Status.OK).entity(result).tag(eTag).build();
     }
