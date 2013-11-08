@@ -61,7 +61,8 @@ public class ETagBuilderImpl<T extends Serializable> implements ETagBuilder<T> {
         this.hashCodeGenerator = hashCodeGenerator;
     }
 
-    public void setEntity(T entity) {
+    public ETagBuilder<T> withEntity(T entity) {
         this.entity = entity;
+        return this;
     }
 }

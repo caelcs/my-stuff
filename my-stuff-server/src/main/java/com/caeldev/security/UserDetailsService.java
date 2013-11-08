@@ -4,6 +4,7 @@ import com.caeldev.domain.Authority;
 import com.caeldev.domain.User;
 import com.caeldev.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -32,6 +33,7 @@ import java.util.List;
  * limitations under the License.
  */
 @Component(value = "userDetailsService")
+@Scope("prototype")
 public class UserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
 
     @Autowired

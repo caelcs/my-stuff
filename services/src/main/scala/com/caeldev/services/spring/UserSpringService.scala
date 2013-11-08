@@ -13,6 +13,7 @@ import com.caeldev.actors.Operation._
 import com.caeldev.actors.UserOperations.GetByUsername
 import scala.throws
 import ExecutionContext.Implicits.global
+import org.springframework.context.annotation.Scope
 
 /**
  * Copyright (c) 2012 - 2013 Caeldev, Inc.
@@ -35,6 +36,7 @@ import ExecutionContext.Implicits.global
  *
  */
 @Component(value = "userSpringService")
+@Scope("prototype")
 class UserSpringService extends UserService with ActorSystemComponent {
 
   implicit val timeout = Timeout(5 seconds)

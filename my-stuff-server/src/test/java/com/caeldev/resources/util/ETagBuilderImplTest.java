@@ -46,9 +46,9 @@ public class ETagBuilderImplTest {
     public void shouldBuildAValidETagBasedOnEntityMockingHashCodeGenerator() throws ServiceException {
         EntityTest sourceEntityTest = new EntityTest(1, "Test Name", new ArrayList<String>());
         when(hashCodeGenerator.generateFrom(any(byte[].class))).thenReturn("test1234");
-        eTagBuilder.setEntity(sourceEntityTest);
-
-        EntityTag entityTag = eTagBuilder.build();
+        EntityTag entityTag = eTagBuilder
+                .withEntity(sourceEntityTest)
+                .build();
 
         assertEquals("test1234", entityTag.getValue());
         verify(hashCodeGenerator).generateFrom(any(byte[].class));
@@ -58,9 +58,9 @@ public class ETagBuilderImplTest {
     public void shouldBuildDifferentETagWhenEntityChangeNoMocking() throws ServiceException, NoSuchAlgorithmException {
         EntityTest sourceEntityTest = new EntityTest(1, "Test Name", new ArrayList<String>());
         eTagBuilder.setHashCodeGenerator(new HashCodeGeneratorMD5Impl());
-        eTagBuilder.setEntity(sourceEntityTest);
-
-        EntityTag sourceEntityTag = eTagBuilder.build();
+        EntityTag sourceEntityTag = eTagBuilder
+                .withEntity(sourceEntityTest)
+                .build();
 
         sourceEntityTest.setName("Test Name 1");
 
@@ -73,9 +73,10 @@ public class ETagBuilderImplTest {
     public void shouldBuildDifferentETagWhenAddElementsToAListNoMocking() throws ServiceException, NoSuchAlgorithmException {
         EntityTest sourceEntityTest = new EntityTest(1, "Test Name", new ArrayList<String>());
         eTagBuilder.setHashCodeGenerator(new HashCodeGeneratorMD5Impl());
-        eTagBuilder.setEntity(sourceEntityTest);
+        EntityTag sourceEntityTag = eTagBuilder
+                .withEntity(sourceEntityTest)
+                .build();
 
-        EntityTag sourceEntityTag = eTagBuilder.build();
         sourceEntityTest.getContents().add("demo 1");
         sourceEntityTest.getContents().add("demo 2");
 
@@ -89,14 +90,14 @@ public class ETagBuilderImplTest {
     public void shouldBuildIdenticalETagsFromDifferentInstancesWithSameDataNoMocking() throws ServiceException, NoSuchAlgorithmException {
         EntityTest sourceEntityTest = new EntityTest(1, "Test Name", new ArrayList<String>());
         eTagBuilder.setHashCodeGenerator(new HashCodeGeneratorMD5Impl());
-        eTagBuilder.setEntity(sourceEntityTest);
-
-        EntityTag sourceEntityTag = eTagBuilder.build();
+        EntityTag sourceEntityTag = eTagBuilder
+                .withEntity(sourceEntityTest)
+                .build();
 
         EntityTest source2EntityTest = new EntityTest(1, "Test Name", new ArrayList<String>());
-        eTagBuilder.setEntity(source2EntityTest);
-
-        EntityTag updatedEntityTag = eTagBuilder.build();
+        EntityTag updatedEntityTag = eTagBuilder
+                .withEntity(source2EntityTest)
+                .build();
 
         assertEquals(sourceEntityTag.getValue(), updatedEntityTag.getValue());
     }

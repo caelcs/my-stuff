@@ -26,5 +26,5 @@ import javax.ws.rs.core.EntityTag;
 public interface ETagBuilder<T> {
     public EntityTag build() throws ServiceException;
     public void setHashCodeGenerator(HashCodeGenerator hashCodeGenerator);
-    public void setEntity(T entity);
+    public ETagBuilder<T> withEntity(T entity);
 }

@@ -10,6 +10,7 @@ import com.caeldev.services.PageQuery;
 import com.caeldev.services.ServiceException;
 import com.caeldev.services.spring.ContentTypeSpringService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
@@ -35,6 +36,7 @@ import javax.ws.rs.core.*;
  * limitations under the License.
  */
 @Component
+@Scope("request")
 @Path("/contenttype")
 public class ContentTypeResource {
 
@@ -59,9 +61,7 @@ public class ContentTypeResource {
     @Produces({MediaType.APPLICATION_JSON})
     public Response add(ContentType contentType) throws ServiceException {
         //Generate ETag
-        eTagBuilder.setEntity(contentType);
-        EntityTag eTag = eTagBuilder.build();
-
+        EntityTag eTag = eTagBuilder.withEntity(contentType).build();
         ContentType result = contentTypeSpringService.add(contentType);
         return Response.status(Response.Status.CREATED).entity(result).tag(eTag).build();
     }
@@ -70,9 +70,19 @@ public class ContentTypeResource {
     @Path("/{id}")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    public Response update(@PathParam("id")Long id, ContentType contentType) throws ServiceException {
+    public Response update(@PathParam("id")Long id, ContentType contentType,
+                           @Context Request request) throws ServiceException, ValidationException {
+        //Get the current entity
+        ContentType updatedContentType = contentTypeSpringService.get(id);
+        //Generate an EntityTag from the entity got it from backend.
+        EntityTag entityTag = eTagBuilder.withEntity(updatedContentType).build();
+        //Validate if the Etag in the request match wth the etag generated
+        Validation preValidation = new ETagPreConditionsValidation(entityTag, request);
+        preValidation.execute();
+        //update the entity
+        EntityTag newEntityTag = eTagBuilder.withEntity(contentType).build();
         ContentType result = contentTypeSpringService.update(contentType);
-        return Response.status(Response.Status.OK).entity(result).build();
+        return Response.status(Response.Status.OK).entity(result).tag(newEntityTag).build();
     }
 
     @DELETE
@@ -89,8 +99,7 @@ public class ContentTypeResource {
     public Response get(@PathParam("id")Long id) throws ServiceException, ValidationException {
         ContentType result = contentTypeSpringService.get(id);
         //Generate ETag based on ContentType
-        eTagBuilder.setEntity(result);
-        EntityTag eTag = eTagBuilder.build();
+        EntityTag eTag = eTagBuilder.withEntity(result).build();
         return Response.status(Response.Status.OK).entity(result).tag(eTag).build();
     }
 }

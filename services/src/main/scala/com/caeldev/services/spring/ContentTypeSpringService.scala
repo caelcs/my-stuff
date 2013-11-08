@@ -11,6 +11,7 @@ import scala.concurrent.duration._
 import com.caeldev.services.{Page, PageQuery, ServiceException, ContentTypeService}
 import com.caeldev.actors.Operation._
 import ExecutionContext.Implicits.global
+import org.springframework.context.annotation.Scope
 
 
 /**
@@ -34,10 +35,10 @@ import ExecutionContext.Implicits.global
  *
  */
 @Component(value = "contentTypeSpringService")
+@Scope("prototype")
 class ContentTypeSpringService extends ContentTypeService with ActorSystemComponent {
 
   implicit val timeout = Timeout(5 seconds)
-
 
   @throws(classOf[ServiceException])
   def list(pageQuery:PageQuery):Page[ContentType] = {
