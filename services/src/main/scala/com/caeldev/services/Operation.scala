@@ -1,4 +1,4 @@
-package com.caeldev.actors
+package com.caeldev.services
 
 import com.caeldev.services.PageQuery
 

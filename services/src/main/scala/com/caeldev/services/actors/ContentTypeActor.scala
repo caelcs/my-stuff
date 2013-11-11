@@ -1,9 +1,9 @@
-package com.caeldev.actors
+package com.caeldev.services.actors
 
 import akka.actor.{ActorLogging, Actor}
 import com.caeldev.services.{PageQuery, ContentTypeServiceRegistry}
 import com.caeldev.domain.ContentType
-import com.caeldev.actors.Operation._
+import com.caeldev.services.Operation.{Get, Update, Delete, Add}
 
 /**
  * Copyright (c) 2012 - 2013 Caeldev, Inc.

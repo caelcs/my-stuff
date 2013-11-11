@@ -1,15 +1,17 @@
 package com.caeldev.services.spring
 
 import org.springframework.stereotype.Component
-import com.caeldev.actors.{ContentTypeActor, ActorSystemComponent}
 import com.caeldev.domain.ContentType
 import akka.actor.Props
 import akka.pattern.ask
 import scala.concurrent.{ExecutionContext, Await}
 import akka.util.Timeout
 import scala.concurrent.duration._
-import com.caeldev.services.{Page, PageQuery, ServiceException}
-import com.caeldev.actors.Operation._
+import com.caeldev.services._
+import com.caeldev.services.actors.ContentTypeActor
+import com.caeldev.services.ServiceException
+import scala.List
+import Operation._
 import ExecutionContext.Implicits.global
 import org.springframework.context.annotation.Scope
 import com.caeldev.services.components.ContentTypeService

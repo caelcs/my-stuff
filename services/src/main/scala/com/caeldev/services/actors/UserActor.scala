@@ -1,10 +1,10 @@
-package com.caeldev.actors
+package com.caeldev.services.actors
 
 import akka.actor.{ActorLogging, Actor}
 import com.caeldev.services.{PageQuery, UserServiceRegistry}
 import com.caeldev.domain.User
-import com.caeldev.actors.Operation._
-import com.caeldev.actors.UserOperations.GetByUsername
+import com.caeldev.services.Operation.{Get, Update, Delete, Add}
+import com.caeldev.services.actors.UserOperations.GetByUsername
 
 
 /**

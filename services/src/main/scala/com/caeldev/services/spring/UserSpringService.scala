@@ -1,16 +1,18 @@
 package com.caeldev.services.spring
 
 import org.springframework.stereotype.Component
-import com.caeldev.services.{Page, PageQuery, ServiceException}
-import com.caeldev.actors.{UserActor, ActorSystemComponent}
+import com.caeldev.services._
 import akka.util.Timeout
 import scala.concurrent.duration._
 import com.caeldev.domain.User
 import akka.actor.Props
 import akka.pattern.ask
 import scala.concurrent.{ExecutionContext, Await}
-import com.caeldev.actors.Operation._
-import com.caeldev.actors.UserOperations.GetByUsername
+import com.caeldev.services.actors.{UserActor, UserOperations}
+import com.caeldev.services.ServiceException
+import scala.List
+import Operation._
+import UserOperations.GetByUsername
 import scala.throws
 import ExecutionContext.Implicits.global
 import org.springframework.context.annotation.Scope
