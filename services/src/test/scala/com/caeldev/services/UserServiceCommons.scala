@@ -3,6 +3,7 @@ package com.caeldev.services
 import com.caeldev.domain.User
 import org.scalatest.matchers.ShouldMatchers
 import org.junit.Test
+import com.caeldev.services.components.UserService
 
 /**
  * Copyright (c) 2012 - 2013 Caeldev, Inc.

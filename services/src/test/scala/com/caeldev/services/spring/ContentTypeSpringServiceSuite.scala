@@ -7,7 +7,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.beans.factory.annotation.Autowired
 import scala.beans.BeanProperty
-import com.caeldev.services.{ContentTypeServiceCommons, ContentTypeService}
+import com.caeldev.services.{ContentTypeServiceCommons}
+import com.caeldev.services.components.ContentTypeService
 
 /**
  * Copyright (c) 2012 - 2013 Caeldev, Inc.

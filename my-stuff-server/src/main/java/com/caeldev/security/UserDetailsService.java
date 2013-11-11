@@ -2,7 +2,7 @@ package com.caeldev.security;
 
 import com.caeldev.domain.Authority;
 import com.caeldev.domain.User;
-import com.caeldev.services.UserService;
+import com.caeldev.services.components.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.authority.AuthorityUtils;

@@ -1,9 +1,10 @@
-package com.caeldev.services
+package com.caeldev.services.components
 
 import com.caeldev.dao.UserDAOComponent
 import com.caeldev.domain.User
 import com.caeldev.persistence.DatabaseTransactionManager._
 import com.googlecode.genericdao.search.{SearchResult, Search}
+import com.caeldev.services.{Page, PageQuery, GenericService}
 
 /**
  * Copyright (c) 2012 - 2013 Caeldev, Inc.

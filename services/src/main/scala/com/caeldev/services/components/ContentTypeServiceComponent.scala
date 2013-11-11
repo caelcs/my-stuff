@@ -1,9 +1,10 @@
-package com.caeldev.services
+package com.caeldev.services.components
 
 import com.googlecode.genericdao.search.{Search, SearchResult}
 import com.caeldev.domain.ContentType
 import com.caeldev.dao.ContentTypeDAOComponent
 import com.caeldev.persistence.DatabaseTransactionManager._
+import com.caeldev.services.{Page, PageQuery, GenericService}
 
 
 /**

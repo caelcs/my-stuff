@@ -1,6 +1,7 @@
 package com.caeldev.services
 
 import com.caeldev.dao.{UserDAOComponentLive, ContentTypeDAOComponentLive}
+import com.caeldev.services.components.{ContentTypeServiceComponentLive, ContentTypeService, UserServiceComponentLive, UserService}
 
 /**
  * Copyright (c) 2012 - 2013 Caeldev, Inc.

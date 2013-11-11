@@ -1,7 +1,7 @@
 package com.caeldev.services.spring
 
 import org.springframework.stereotype.Component
-import com.caeldev.services.{Page, PageQuery, ServiceException, UserService}
+import com.caeldev.services.{Page, PageQuery, ServiceException}
 import com.caeldev.actors.{UserActor, ActorSystemComponent}
 import akka.util.Timeout
 import scala.concurrent.duration._
@@ -14,6 +14,7 @@ import com.caeldev.actors.UserOperations.GetByUsername
 import scala.throws
 import ExecutionContext.Implicits.global
 import org.springframework.context.annotation.Scope
+import com.caeldev.services.components.UserService
 
 /**
  * Copyright (c) 2012 - 2013 Caeldev, Inc.

@@ -3,6 +3,7 @@ package com.caeldev.services
 import org.junit.Test
 import com.caeldev.domain.ContentType
 import org.scalatest.matchers.ShouldMatchers
+import com.caeldev.services.components.ContentTypeService
 
 /**
  * Copyright (c) 2012 - 2013 Caeldev, Inc.
