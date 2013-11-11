@@ -82,7 +82,7 @@ trait ContentTypeServiceCommons extends ShouldMatchers {
     resultAdd should not be null
     resultAdd.name should be equals "This is a Content Type for Test"
 
-    val pageQuery = new PageQuery(10, 1)
+    val pageQuery = new PageQuery(10, 0)
     val result = contentTypeService.list(pageQuery)
     result.result.size should be > 0
     contentTypeService.delete(resultAdd.id)

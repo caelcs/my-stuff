@@ -35,6 +35,7 @@ import java.io.Serializable;
 public class ETagBuilderImpl<T extends Serializable> implements ETagBuilder<T> {
 
     private T entity;
+
     @Autowired
     private HashCodeGenerator hashCodeGenerator;
 

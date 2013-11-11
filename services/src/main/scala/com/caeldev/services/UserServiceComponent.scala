@@ -43,7 +43,7 @@ trait UserServiceComponentLive extends UserServiceComponent {
   class UserServiceImpl extends UserService {
     def list(pageQuery:PageQuery): Page[User] = {
       inTransaction{
-        val searchCriteria = new Search()
+        val searchCriteria = new Search().setMaxResults(pageQuery.pageSize).setPage(pageQuery.pageNumber)
         val resultSearch:SearchResult[User] = userDao.searchAndCount(searchCriteria)
         val result = new Page[User](resultSearch.getTotalCount, pageQuery.getPageNumber, pageQuery.getPageSize, resultSearch.getResult)
         result

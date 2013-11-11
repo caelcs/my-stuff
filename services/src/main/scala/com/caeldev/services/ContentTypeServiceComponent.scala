@@ -42,7 +42,7 @@ trait ContentTypeServiceComponentLive extends ContentTypeServiceComponent {
 
     def list(pageQuery:PageQuery):Page[ContentType] = {
       inTransaction{
-        val searchCriteria = new Search()
+        val searchCriteria = new Search().setMaxResults(pageQuery.pageSize).setPage(pageQuery.pageNumber)
         val resultSearch:SearchResult[ContentType] = contentTypeDao.searchAndCount(searchCriteria)
         val result = new Page[ContentType](resultSearch.getTotalCount, pageQuery.getPageNumber, pageQuery.getPageSize, resultSearch.getResult)
         result

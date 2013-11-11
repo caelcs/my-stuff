@@ -105,7 +105,7 @@ trait UserServiceCommons extends ShouldMatchers {
     resultAdd.email should be equals "test@test.com"
     resultAdd.username should be equals "usertestspring5"
 
-    val pageQuery = new PageQuery(10, 1)
+    val pageQuery = new PageQuery(10, 0)
     val result = userService.list(pageQuery)
     result.result.size should be > 0
     userService.delete(resultAdd.id)

@@ -83,9 +83,10 @@ public class ContentTypeResource {
         logger.debug("Validating Etag generated with If-None-Match tag.");
         Validation preValidation = new ETagPreConditionsValidation(entityTag, request);
         preValidation.execute();
-        logger.debug("Building ETag from new Entity to be updated.");
-        EntityTag newEntityTag = eTagBuilder.withEntity(contentType).build();
+        logger.debug("Update Content.");
         ContentType result = contentTypeSpringService.update(contentType);
+        logger.debug("Building ETag from updated entity.");
+        EntityTag newEntityTag = eTagBuilder.withEntity(result).build();
         return Response.status(Response.Status.OK).entity(result).tag(newEntityTag).build();
     }
 
