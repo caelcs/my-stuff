@@ -9,7 +9,7 @@
 <Configure id="sslContextFactory" class="org.eclipse.jetty.util.ssl.SslContextFactory">
    <Call class="java.lang.System" name="setProperty">
         <Arg>javax.net.ssl.trustStore</Arg>
-        <Arg>/Users/cael/workspaces/my-stuff/certificates/server.jks</Arg>
+        <Arg>../../../certificates/server.jks</Arg>
    </Call>
    <Call class="java.lang.System" name="setProperty">
         <Arg>javax.net.ssl.trustStorePassword</Arg>
